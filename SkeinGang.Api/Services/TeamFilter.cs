@@ -4,35 +4,37 @@ using SkeinGang.Data.Enums;
 
 namespace SkeinGang.Api.Services;
 
-public record TeamFilter(Expression<Func<Domain.Team, bool>> Filter)
+internal class TeamFilter(Expression<Func<Domain.Team, bool>> filter)
 {
-    internal sealed record Regions(List<Region> Items):
-        TeamFilter(t => Items.Contains(t.Region));
+    public Expression<Func<Domain.Team, bool>> Filter { get; } = filter;
 
-    internal sealed record ContentFocuses(List<ContentFocus> Items):
-        TeamFilter(t=> Items.Contains(t.ContentFocus));
+    internal sealed class Regions(List<Region> items):
+        TeamFilter(t => items.Contains(t.Region));
 
-    internal sealed record DifficultyLevels(List<ContentDifficulty> Items):
-        TeamFilter(t => Items.Contains(t.ContentDifficulty));
+    internal sealed class ContentFocuses(List<ContentFocus> items):
+        TeamFilter(t=> items.Contains(t.ContentFocus));
 
-    internal sealed record ExperienceLevels(List<ExperienceLevel> Items):
-        TeamFilter(t => Items.Contains(t.ExperienceLevel));
+    internal sealed class DifficultyLevels(List<ContentDifficulty> items):
+        TeamFilter(t => items.Contains(t.ContentDifficulty));
 
-    internal sealed record DaysOfWeek(List<IsoDayOfWeek> Items):
-        TeamFilter(t => Items.Contains(t.DayOfWeekRaid));
+    internal sealed class ExperienceLevels(List<ExperienceLevel> items):
+        TeamFilter(t => items.Contains(t.ExperienceLevel));
 
-    internal sealed record TimesOfDay(LocalTime From, LocalTime To):
-        TeamFilter(t => t.TimeOfRaid >= From && t.TimeOfRaid <= To)
+    internal sealed class DaysOfWeek(List<IsoDayOfWeek> items):
+        TeamFilter(t => items.Contains(t.DayOfWeekRaid));
+
+    internal sealed class TimesOfDay(LocalTime from, LocalTime to):
+        TeamFilter(t => t.TimeOfRaid >= from && t.TimeOfRaid <= to)
     {
-        public TimesOfDay(LocalTime From, LocalTime? To = null) :
-            this(From, To ?? From.PlusMinutes(15))
+        public TimesOfDay(LocalTime from, LocalTime? to = null) :
+            this(from, to ?? from.PlusMinutes(15))
         {
         }
     }
 
-    public sealed record HasEmptySlots(int Minimum, int Maximum):
-        TeamFilter(t => t.TeamDetail.EmptySlots >= Minimum && t.TeamDetail.EmptySlots <= Maximum);
+    internal sealed class HasEmptySlots(int minimum, int maximum):
+        TeamFilter(t => t.TeamDetail.EmptySlots >= minimum && t.TeamDetail.EmptySlots <= maximum);
 
-    public sealed record Durations(Duration Minimum, Duration Maximum):
-        TeamFilter(t => t.RunDuration >= Minimum && t.RunDuration <= Maximum);
+    internal sealed class Durations(Duration minimum, Duration maximum):
+        TeamFilter(t => t.RunDuration >= minimum && t.RunDuration <= maximum);
 }

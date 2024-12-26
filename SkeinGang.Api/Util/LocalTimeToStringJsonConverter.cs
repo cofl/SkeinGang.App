@@ -3,9 +3,9 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using NodaTime;
 
-namespace SkeinGang.Api;
+namespace SkeinGang.Api.Util;
 
-public class LocalTimeToStringJsonConverter: JsonConverter<LocalTime>
+internal class LocalTimeToStringJsonConverter: JsonConverter<LocalTime>
 {
     public override LocalTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

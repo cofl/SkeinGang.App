@@ -7,7 +7,7 @@ namespace SkeinGang.Data.Entities;
 public class TeamDetail
 {
     public long TeamId { get; }
-    public int MaximumMembers { get; }
+    public long TeamCapacity { get; }
     public long TotalMembers { get; }
     public long HonoraryMembers { get; }
     public long ActiveMembers { get; }

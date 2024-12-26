@@ -2,9 +2,9 @@
 using System.Text.Json.Serialization;
 using NodaTime;
 
-namespace SkeinGang.Api;
+namespace SkeinGang.Api.Util;
 
-public class DateTimeZoneToStringJsonConverter: JsonConverter<DateTimeZone>
+internal class DateTimeZoneToStringJsonConverter: JsonConverter<DateTimeZone>
 {
     public override DateTimeZone? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

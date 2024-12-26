@@ -5,39 +5,56 @@ using SkeinGang.Data.Context;
 
 namespace SkeinGang.Api.Services;
 
+file static class TeamQueryableExtensions
+{
+    internal static IQueryable<Domain.Team> IncludeTeamDtoRelated(this IQueryable<Domain.Team> teams)
+        => teams.Include(t => t.TeamDetail);
+
+    internal static IQueryable<Domain.Team> IncludeTeamWithMembersDtoRelated(this IQueryable<Domain.Team> teams) =>
+        teams
+            .Include(t => t.TeamDetail)
+            .Include(t => t.TeamMemberships)
+            .ThenInclude(m => m.Player);
+}
+
 public class TeamService(DataContext dataContext)
 {
-    public ResultDto<TeamDto> FindAll(int limit, int offset, IEnumerable<TeamFilter> filters)
+    internal ResultDto<TeamDto> FindAll(int limit, int offset, IEnumerable<TeamFilter> filters)
     {
         var teams = filters
-            .Aggregate((IQueryable<Domain.Team>)dataContext.Teams, (teams, filter) => teams.Where(filter.Filter))
+            .Aggregate<TeamFilter, IQueryable<Domain.Team>>(dataContext.Teams,
+                (teams, filter) => teams.Where(filter.Filter))
             .Skip(offset)
             .Take(limit + 1)
+            .IncludeTeamDtoRelated()
+            .Select(t => new TeamDto(t))
+            .ToList();
+        return new ResultDto<TeamDto>(teams.Count > limit, teams[..limit]);
+    }
+
+    internal ResultDto<TeamDto> GetAll(List<long> ids)
+    {
+        var teams = dataContext.Teams
+            .Where(t => ids.Contains(t.TeamId))
+            .IncludeTeamDtoRelated()
             .Select(t => new TeamDto(t))
             .ToList();
         return new ResultDto<TeamDto>(false, teams);
     }
-    
-    public IQueryable<Domain.Team> GetAll(List<long> ids) =>
-        dataContext.Teams.Where(t => ids.Contains(t.TeamId));
 
-    public bool TryGetTeam(long teamId, [NotNullWhen(returnValue: true)] out TeamWithMembersDto? team)
+    internal bool TryGetTeam(long teamId, [NotNullWhen(returnValue: true)] out TeamWithMembersDto? team)
     {
         var result = dataContext.Teams
-            .Include(t => t.TeamDetail)
-            .Include(t => t.TeamMemberships)
-            .ThenInclude(t => t.Player)
+            .IncludeTeamWithMembersDtoRelated()
             .FirstOrDefault(t => t.TeamId == teamId);
         team = result is null ? null : new TeamWithMembersDto(result);
         return result != null;
     }
-    
-    public bool TryGetTeam(string slug, [NotNullWhen(returnValue: true)] out TeamWithMembersDto? team)
+
+    internal bool TryGetTeam(string slug, [NotNullWhen(returnValue: true)] out TeamWithMembersDto? team)
     {
         var result = dataContext.Teams
-            .Include(t => t.TeamDetail)
-            .Include(t => t.TeamMemberships)
-            .ThenInclude(t => t.Player)
+            .IncludeTeamWithMembersDtoRelated()
             .FirstOrDefault(t => t.Slug == slug);
         team = result is null ? null : new TeamWithMembersDto(result);
         return result != null;

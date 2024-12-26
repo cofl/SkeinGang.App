@@ -7,10 +7,10 @@ namespace SkeinGang.Api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Produces("application/json")]
-public class TeamsController(TeamService teams) : ControllerBase
+public class TeamsController(TeamService teams, HighlightService highlighted) : ControllerBase
 {
     [HttpGet]
-    [ProducesResponseType<List<TeamDto>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<ResultDto<TeamDto>>(StatusCodes.Status200OK)]
     public IActionResult Index()
     {
         return Ok(teams.FindAll(100, 0, Array.Empty<TeamFilter>()));
@@ -28,8 +28,15 @@ public class TeamsController(TeamService teams) : ControllerBase
     public IActionResult GetBySlug(string slug)
         => teams.TryGetTeam(slug, out var team) ? Ok(team) : NotFound();
 
-    public IActionResult GetHighlighted()
+    [HttpGet, Route("highlighted")]
+    public ResultDto<TeamDto> GetHighlighted()
     {
-        return Ok(new List<TeamWithMembersDto>());
+        return teams.GetAll(highlighted.CurrentlyHighlighted);
+    }
+
+    [HttpDelete, Route("highlighted")]
+    public void DeleteHighlighted()
+    {
+        highlighted.RemoveAllCurrentlyHighlighted();
     }
 }
