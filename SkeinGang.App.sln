@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeinGang.Data", "SkeinGang.Data\SkeinGang.Data.csproj", "{AB0ADD24-1C0F-49D9-B045-12E0EEEC024E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkeinGang.Api", "SkeinGang.Api\SkeinGang.Api.csproj", "{EFE159C5-A7BD-43AA-B0F9-AB6A787DE854}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AB0ADD24-1C0F-49D9-B045-12E0EEEC024E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB0ADD24-1C0F-49D9-B045-12E0EEEC024E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB0ADD24-1C0F-49D9-B045-12E0EEEC024E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB0ADD24-1C0F-49D9-B045-12E0EEEC024E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFE159C5-A7BD-43AA-B0F9-AB6A787DE854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFE159C5-A7BD-43AA-B0F9-AB6A787DE854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFE159C5-A7BD-43AA-B0F9-AB6A787DE854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFE159C5-A7BD-43AA-B0F9-AB6A787DE854}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
