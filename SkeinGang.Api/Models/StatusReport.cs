@@ -1,12 +1,14 @@
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using NodaTime;
+using SkeinGang.Api.Util;
 
-namespace SkeinGang.Api.Views;
+namespace SkeinGang.Api.Models;
 
 /// <summary>
 /// A status report.
 /// </summary>
+[DefaultRequired]
 public class StatusReport
 {
     /// <summary>
@@ -35,6 +37,7 @@ public class StatusReport
     /// <param name="Status">The current status of the check.</param>
     /// <param name="Description">A description for the check.</param>
     /// <param name="Data">Any additional data returned by the check.</param>
+    [DefaultRequired]
     public record StatusResult(
         HealthStatus Status,
         [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

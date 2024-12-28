@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using SkeinGang.Api.Views;
+using SkeinGang.Api.Models;
 using SkeinGang.Data.Context;
 
 namespace SkeinGang.Api.Services;
@@ -24,12 +24,13 @@ public class TeamService(DataContext dataContext)
         var teams = filters
             .Aggregate<TeamFilter, IQueryable<Domain.Team>>(dataContext.Teams,
                 (teams, filter) => teams.Where(filter.Filter))
+            .OrderBy(t => t.TeamId)
             .Skip(offset)
             .Take(limit + 1)
             .IncludeTeamDtoRelated()
             .Select(t => new TeamDto(t))
             .ToList();
-        return new ResultDto<TeamDto>(teams.Count > limit, teams[..limit]);
+        return new ResultDto<TeamDto>(teams.Count > limit, teams[..Math.Min(teams.Count, limit)]);
     }
 
     internal ResultDto<TeamDto> GetAll(List<long> ids)

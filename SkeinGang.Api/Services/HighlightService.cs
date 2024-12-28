@@ -1,10 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Quartz;
 using SkeinGang.Api.Jobs;
 using SkeinGang.Data.Context;
 
 namespace SkeinGang.Api.Services;
 
+// TODO: get the state into an external store so the application itself can be truly stateless.
+// That way we can ditch the IHighlightService song-and-dance.
+// Maybe just put it in the database? Should be (relatively) cheap, just need to start doing migrations.
 public class HighlightService(IHighlightService serviceSingleton, DataContext context)
 {
     public List<long> CurrentlyHighlighted => serviceSingleton.RefillCurrentlyHighlighted(context);

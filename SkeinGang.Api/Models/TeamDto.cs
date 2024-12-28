@@ -1,22 +1,73 @@
 ﻿using System.Text.Json.Serialization;
-using Microsoft.EntityFrameworkCore;
 using NodaTime;
+using SkeinGang.Api.Util;
 using SkeinGang.Data.Enums;
 
-namespace SkeinGang.Api.Views;
+namespace SkeinGang.Api.Models;
 
+/// <summary>
+/// Base class for team DTOs.
+/// </summary>
+/// <param name="team">A team entity to populate the DTO with.</param>
 public abstract class AnyTeam(Domain.Team team)
 {
+    /// <summary>
+    /// Name of the team.
+    /// </summary>
     public string Name { get; } = team.Name;
+    
+    /// <summary>
+    /// URL-ified named of the team, used as an ID.
+    /// </summary>
     public string Slug { get; } = team.Slug;
+    
+    /// <summary>
+    /// Use-provided description for the team.
+    /// </summary>
     public string Description { get; } = team.Description;
+    
+    /// <summary>
+    /// Difficulty the team plays at.
+    /// </summary>
     public ContentDifficulty Difficulty { get; } = team.ContentDifficulty;
+    
+    /// <summary>
+    /// Content the team primarily plays.
+    /// </summary>
     public ContentFocus ContentFocus { get; } = team.ContentFocus;
+    
+    /// <summary>
+    /// Experience rating for the team.
+    /// </summary>
     public ExperienceLevel ExperienceLevel { get; } = team.ExperienceLevel;
+    
+    /// <summary>
+    /// Global region the team is based in.
+    /// </summary>
+    /// <remarks>
+    /// This does *not* correspond to the Guild Wars 2 server cluster the team plays on.
+    /// </remarks>
     public Region Region { get; } = team.Region;
-    public string Roster { get; }
+
+    /// <summary>
+    /// Summary of information about the team roster.
+    /// </summary>
+    public TeamRoster Roster { get; } = new()
+    {
+        Maximum = team.TeamDetail.TeamCapacity,
+        Total = team.TeamDetail.TotalMembers,
+        Held = team.HoldSlots,
+        Active = team.TeamDetail.ActiveMembers,
+    };
+    
+    /// <summary>
+    /// If the team has been archived.
+    /// </summary>
     public bool IsArchived { get; } = team.IsArchived;
 
+    /// <summary>
+    /// List of times the team plays at.
+    /// </summary>
     public List<TeamTime> Times { get; } = [
         new()
         {
@@ -29,10 +80,21 @@ public abstract class AnyTeam(Domain.Team team)
     ];
 }
 
+/// <summary>
+/// A team, without detailed member information.
+/// </summary>
+[DefaultRequired]
 public sealed class TeamDto(Domain.Team team) : AnyTeam(team);
 
+/// <summary>
+/// A team, including detailed member information.
+/// </summary>
+[DefaultRequired]
 public sealed class TeamWithMembersDto(Domain.Team team) : AnyTeam(team)
 {
+    /// <summary>
+    /// List of members on the team.
+    /// </summary>
     [JsonPropertyOrder(100)]
     public ICollection<TeamMember> Members { get; } =
         team.TeamMemberships
@@ -40,9 +102,19 @@ public sealed class TeamWithMembersDto(Domain.Team team) : AnyTeam(team)
             .ToList();
 }
 
+/// <summary>
+/// A time the team raids at.
+/// </summary>
 public sealed class TeamTime
 {
+    /// <summary>
+    /// Day-of-week the team raids.
+    /// </summary>
     public required IsoDayOfWeek Day { get; init; }
+    
+    /// <summary>
+    /// Time-of-day the team raids, in UTC.
+    /// </summary>
     public required LocalTime Time { get; init; }
     
     /// <summary>
@@ -50,6 +122,10 @@ public sealed class TeamTime
     /// </summary>
     [JsonPropertyName("duration")]
     public required uint DurationSeconds { get; init; }
+    
+    /// <summary>
+    /// An IANA time zone ID. 
+    /// </summary>
     public required DateTimeZone TimeZone { get; init; }
     
     /// <summary>
@@ -72,6 +148,33 @@ public sealed class TeamTime
     /// </list>
     /// </remarks>
     public required bool FollowsSummerTime { get; init; }
+}
+
+/// <summary>
+/// Summary information about a team's roster.
+/// </summary>
+public sealed class TeamRoster
+{
+    /// <summary>
+    /// Active member capacity of the team.
+    /// </summary>
+    public required int Maximum { get; init; }
+    
+    /// <summary>
+    /// Total count of all active and inactive members on the roster.
+    /// This may be larger than the team's capacity.
+    /// </summary>
+    public required int Total { get; init; }
+    
+    /// <summary>
+    /// Slots held for future members (counts against the team capacity).
+    /// </summary>
+    public required int Held { get; init; }
+    
+    /// <summary>
+    /// Active members and representatives, excluding honorary members.
+    /// </summary>
+    public required int Active { get; init; }
 }
 
 public sealed record TeamMember(MembershipType MembershipType, string Username, string Account, long? DiscordId)

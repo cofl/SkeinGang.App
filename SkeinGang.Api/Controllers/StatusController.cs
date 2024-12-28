@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using SkeinGang.Api.Views;
+using SkeinGang.Api.Models;
 
 namespace SkeinGang.Api.Controllers;
 

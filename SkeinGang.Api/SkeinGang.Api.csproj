@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\SkeinGang.AdminUI\SkeinGang.AdminUI.csproj" />
       <ProjectReference Include="..\SkeinGang.Data\SkeinGang.Data.csproj" />
     </ItemGroup>
 

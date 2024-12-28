@@ -19,4 +19,6 @@ public static partial class Util
     /// <param name="str">The string to convert.</param>
     /// <returns>The converted string.</returns>
     public static string ToSnake(this string str) => SnakeCaseRegex().Replace(str, "$1_$2").ToLowerInvariant();
+    
+    public static string ToCamel(this string str) => str[0].ToString().ToLowerInvariant() + str[1..];
 }
