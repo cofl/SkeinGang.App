@@ -1,0 +1,35 @@
+﻿@model List<SkeinGang.AdminUI.Models.TeamDto>
+
+@{
+    ViewData["Title"] = "Statics";
+    Layout = "_Layout";
+}
+
+<div style="display: flex; flex-direction: row-reverse">
+    <a type="button" asp-action="Create">Create Static</a>
+</div>
+<table class="striped overflow-vertical">
+    <thead class="table-header-fixated">
+    <tr>
+        <th scope="col">Details</th>
+        <th scope="col">Name</th>
+        <th scope="col">Region</th>
+        <th scope="col">ContentType</th>
+        <th scope="col">Difficulty</th>
+        <th scope="col">Experience</th>
+        <th scope="col">Raid Day</th>
+        <th scope="col">Raid Time</th>
+        <th scope="col">Time Zone</th>
+        <th scope="col">Follows Summer Time</th>
+        <th scope="col">HOLD</th>
+        <th scope="col">Archived</th>
+        <th scope="col">Update</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var team in Model)
+    {
+        await Html.RenderPartialAsync("Components/TeamRow", team);
+    }
+    </tbody>
+</table>

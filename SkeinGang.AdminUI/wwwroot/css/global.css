@@ -1,0 +1,58 @@
+﻿input[type='number']{
+    width: 70px;
+    padding: 8px 12px;
+}
+
+input[type='checkbox']{
+    width: 35px;
+    height: 35px;
+}
+
+button, button[type='button'], input[type='number'], input[type='search'], input[type='text'], input[type='time'], input[type='submit'], select {
+    margin: 5px 0;
+}
+
+td {
+    padding: 4px 3px;
+}
+
+td:has(input[type='checkbox']){
+    text-align: center;
+}
+
+.main-content {
+    margin: 10px 0 0 40px;
+    width: 100%;
+}
+
+
+.form-horizontal {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.remove {
+    background-color: red;
+    cursor: pointer;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.error {
+    color: red;
+}
+
+.overflow-vertical {
+    overflow-y: auto;
+}
+
+.table-header-fixated {
+    position: sticky;
+    top: 0;
+    background-color: #13171f;
+    z-index: 1;
+}

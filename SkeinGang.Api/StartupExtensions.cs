@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -65,10 +66,12 @@ internal static class StartupExtensions
             options.LowercaseUrls = true;
             options.LowercaseQueryStrings = true;
         });
-
+        
+        builder.AddAdminUI();
         builder.Services
             .AddMvc(options =>
             {
+                options.Filters.Add<NoContentResponseFilter>();
                 options.ModelBinderProviders.Insert(0, new JsonEnumModelBinderProvider());
                 options.ModelBinderProviders.Insert(0, new LocalTimeModelBinderProvider());
             }).AddJsonOptions(options =>
@@ -79,8 +82,18 @@ internal static class StartupExtensions
                 options.JsonSerializerOptions.Converters.Add(new DateTimeZoneToStringJsonConverter());
                 options.JsonSerializerOptions.Converters.Add(new LocalTimeToStringJsonConverter());
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-            })
-            .AddAdminUI();
+            });
+        
+        // Authentication/Authorization
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+                options.SlidingExpiration = true;
+                options.LoginPath = AdminUIPart.LoginPath;
+                options.LogoutPath = AdminUIPart.LogoutPath;
+            });
+        builder.Services.AddAuthorization();
 
 
         // Health Checks
@@ -111,6 +124,8 @@ internal static class StartupExtensions
     {
         app.UseHttpsRedirection();
         app.UseCors();
+        app.UseAuthentication();
+        app.UseAuthorization();
         app.UseResponseCaching();
 
         if (app.Environment.IsDevelopment())
@@ -122,6 +137,9 @@ internal static class StartupExtensions
             app.UseReDoc(options => { options.NativeScrollbars(); });
         }
 
+        app.UseAdminUIResources();
+        
+        
         app.MapControllers();
 
         return app;

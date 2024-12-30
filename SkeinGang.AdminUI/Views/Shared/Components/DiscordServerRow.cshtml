@@ -1,0 +1,11 @@
+﻿@model SkeinGang.AdminUI.Models.DiscordServerDto
+
+<tr>
+    <form onsubmit="setTimeout(() => disableUpdateButton(@Model.Id), 0)" asp-action="UpdateDiscordServer" method="post">
+        <input asp-for="Id" value="@Model.Id"/>
+        <td><input asp-for="Id" value="@Model.Id" type="text" disabled/></td>
+        <td><input asp-for="ServerName" value="@Model.ServerName" oninput="enableUpdateButton(@Model.Id)"/></td>
+        <td><input asp-for="ServerId" value="@Model.ServerId" type="text" oninput="enableUpdateButton(@Model.Id)"/></td>
+        <td><input id="update_@Model.Id" type="submit" value="Update" disabled/></td>
+    </form>
+</tr>

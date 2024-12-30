@@ -7,12 +7,13 @@ using SkeinGang.Data.Enums;
 namespace SkeinGang.Data.Entities;
 
 [EntityTypeConfiguration<TeamConfiguration, Team>]
+// ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
 public class Team
 {
     public long TeamId { get; private set; }
     
     public int HoldSlots { get; set; }
-
 
     public ContentDifficulty ContentDifficulty { get; set; }
 
@@ -40,6 +41,7 @@ public class Team
     public long DiscordServerId { get; set; }
     public virtual DiscordServer DiscordServer { get; set; } = null!;
 
+    [MaxLength(100)]
     public string Slug { get; private set; } = null!;
 
     public IsoDayOfWeek DayOfWeekRaid { get; set; }
@@ -48,6 +50,6 @@ public class Team
     public DateTimeZone TimeZone { get; set; } = null!;
     public bool FollowsSummerTime { get; set; }
 
-    public virtual ICollection<TeamMembership> TeamMemberships { get; set; }
-    public virtual TeamDetail TeamDetail { get; set; }
+    public virtual ICollection<TeamMembership> TeamMemberships { get; set; } = null!;
+    public virtual TeamDetail TeamDetail { get; set; } = null!;
 }

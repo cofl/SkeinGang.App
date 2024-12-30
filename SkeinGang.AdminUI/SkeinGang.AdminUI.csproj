@@ -4,9 +4,30 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <LangVersion>preview</LangVersion>
         <OutputType>Library</OutputType>
+        
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <!-- Don't require doc comments. -->
+        <NoWarn>1591</NoWarn>
+
+        <!-- Require exhaustive switches. -->
+        <WarningsAsErrors>8509</WarningsAsErrors>
+        
+        <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
     </PropertyGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="wwwroot\**\*" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="9.0.0" />
+      <PackageReference Include="Riok.Mapperly" Version="4.1.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SkeinGang.Data\SkeinGang.Data.csproj" />
+    </ItemGroup>
 
 </Project>

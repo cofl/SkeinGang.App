@@ -1,0 +1,33 @@
+﻿@model SkeinGang.AdminUI.Models.PlayerDto
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Edit Player";
+}
+
+<section>
+    <form asp-action="PostEditPlayer" method="post">
+        <input asp-for="Id" value="@Model.Id" />
+        <label>
+            ID
+            <input asp-for="Id" type="text" value="@Model.Id" disabled/>
+        </label>
+        <label>
+            GW2 Name
+            <input asp-for="GameAccount" value="@Model.GameAccount" oninput="enableUpdateButton()"/>
+        </label>
+        <label>
+            Discord Name
+            <input asp-for="DiscordAccountName" value="@Model.DiscordAccountName" oninput="enableUpdateButton()"/>
+        </label>
+        <label>
+            Discord UserId
+            <input asp-for="DiscordAccountId" type="text" value="@Model.DiscordAccountId" oninput="enableUpdateButton()"/>
+        </label>
+        <label>
+            Memberships
+            <input asp-for="MembershipCount" value="@Model.MembershipCount" disabled/>
+        </label>
+        <input id="update" type="submit" value="Update" disabled/>
+    </form>
+</section>

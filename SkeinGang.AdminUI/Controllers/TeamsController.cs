@@ -1,13 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using SkeinGang.AdminUI.Services;
 
 namespace SkeinGang.AdminUI.Controllers;
 
 [ApiExplorerSettings(IgnoreApi = true)]
 [Route("/admin-ui/statics")]
-public class TeamsController
+public class TeamsController(TeamService teams): Controller
 {
     [HttpGet]
-    public IActionResult Index() => throw new NotImplementedException();
+    public IActionResult Index()
+        => View(teams.FindAll());
     
     [HttpGet]
     [Route("edit/{teamId:long}")]

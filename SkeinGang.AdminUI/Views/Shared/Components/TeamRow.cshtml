@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using SkeinGang.AdminUI.Services
+@model SkeinGang.AdminUI.Models.TeamDto
+@inject SelectEnumService Enums
+
+@{
+    var presetTimeZones = new List<string>
+        {
+            "Europe/Brussels",
+            "America/New_York",
+            "America/Los_Angeles",
+            "Australia/Sydney",
+            "UTC"
+        }
+        .Select(a => new SelectListItem(a, a, a == Model.TimeZone.Id))
+        .ToList();
+}
+
+<tr>
+    <form onsubmit="setTimeout(() => disableUpdateButton(@Model.TeamId), 0);" asp-action="UpdateTeamRow" method="post">
+        <input asp-for="TeamId" value="@Model.TeamId"/>
+        <td><a asp-action="EditTeam" asp-route-teamId="@Model.TeamId">View</a></td>
+        <td><input asp-for="Name" value="@Model.Name" oninput="enableUpdateButton(@Model.TeamId)"/></td>
+        <td><select asp-for="Region" asp-items="Enums.AsSelectOptions(Model.Region)"
+                    onchange="enableUpdateButton(@Model.TeamId)"></select></td>
+        <td><select asp-for="ContentFocus" asp-items="Enums.AsSelectOptions(Model.ContentFocus)"
+                    onchange="enableUpdateButton(@Model.TeamId)"></select></td>
+        <td><select asp-for="ContentDifficulty" asp-items="Enums.AsSelectOptions(Model.ContentDifficulty)"
+                    onchange="enableUpdateButton(@Model.TeamId)"></select></td>
+        <td><select asp-for="ExperienceLevel" asp-items="Enums.AsSelectOptions(Model.ExperienceLevel)"
+                    onchange="enableUpdateButton(@Model.TeamId)"></select></td>
+        <td><select asp-for="DayOfRaid" asp-items="Enums.AsSelectOptions(Model.DayOfRaid)"
+                    onchange="enableUpdateButton(@Model.TeamId)"></select></td>
+        <td><input asp-for="TimeOfRaid" value="@Model.TimeOfRaid" oninput="enableUpdateButton(@Model.TeamId)"/></td>
+        <td><select asp-for="TimeZone" asp-items="presetTimeZones"
+                    onchange="enableUpdateButton(@Model.TeamId)"></select></td>
+        <td><input asp-for="FollowsSummerTime" value="@Model.FollowsSummerTime"
+                   oninput="enableUpdateButton(@Model.TeamId)"/></td>
+        <td><input asp-for="HoldSlots" value="@Model.HoldSlots" oninput="enableUpdateButton(@Model.TeamId)"/></td>
+        <td><input asp-for="IsArchived" value="@Model.IsArchived" oninput="enableUpdateButton(@Model.TeamId)"/></td>
+        <td><input id="update_@Model.TeamId" type="submit" value="Update" disabled/></td>
+    </form>
+</tr>

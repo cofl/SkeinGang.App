@@ -1,0 +1,24 @@
+﻿@model SkeinGang.AdminUI.Models.PlayerDto
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Create Player";
+}
+
+<section>
+    <form asp-action="CreatePlayer" method="post">
+        <label>
+            GW2 Name
+            <input asp-for="GameAccount" />
+        </label>
+        <label>
+            Discord Name
+            <input asp-for="DiscordAccountName" />
+        </label>
+        <label>
+            Discord User ID
+            <input asp-for="DiscordAccountId" type="text" inputmode="numeric" />
+        </label>
+        <input type="submit" value="Create" />
+    </form>
+</section>

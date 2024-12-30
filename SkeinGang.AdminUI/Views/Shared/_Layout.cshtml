@@ -1,0 +1,41 @@
+﻿<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="stylesheet" href="/css/pico.amber.min.css">
+    <link rel="stylesheet" href="/css/global.css">
+    <script src="/js/htmx.min.js"></script>
+    <script src="/js/global.js"></script>
+    <title>@ViewData["Title"]</title>
+</head>
+<body class="container-fluid">
+<header class="header-row">
+    <div><h2>Static Manager</h2></div>
+    <form method="post" action="/admin-ui/logout">
+        <button type="submit">Logout</button>
+    </form>
+</header>
+<main>
+    <div style="display: flex">
+        <aside>
+            <nav>
+                <ul>
+                    <li>
+                        <h3>Manage</h3>
+                        <a href="/admin-ui/statics">Statics</a>
+                        <a href="/admin-ui/players">Players</a>
+                        <a href="/admin-ui/discords">Discords</a>
+                    </li>
+                    <li>
+                        <h3>Links</h3>
+                        <a href="https://content.test.skeingang.com">Test Content Panel</a>
+                        <a href="https://content.skeingang.com">PROD Content Panel</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        <div class="main-content">@RenderBody()</div>
+    </div>
+</main>
+</body>
+</html>

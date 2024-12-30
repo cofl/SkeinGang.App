@@ -1,0 +1,20 @@
+﻿@model SkeinGang.AdminUI.Models.DiscordServerDto
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Create Discord Server";
+}
+
+<section>
+    <form asp-action="CreateDiscordServer" method="post">
+        <label>
+            Discord Name
+            <input asp-for="ServerName" />
+        </label>
+        <label>
+            Discord Server ID
+            <input asp-for="ServerId"/>
+        </label>
+        <input type="submit" value="Create" />
+    </form>
+</section>

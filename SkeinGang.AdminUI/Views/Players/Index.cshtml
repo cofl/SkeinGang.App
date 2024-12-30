@@ -1,0 +1,44 @@
+﻿@using SkeinGang.AdminUI.Controllers
+@model List<SkeinGang.AdminUI.Models.PlayerDto>?
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Players";
+}
+
+<div style="display: flex; flex-direction: row-reverse">
+    <a type="button" href="@Url.Action("Create", "Players")">Create Player</a>
+</div>
+<label>Filters:</label>
+<div class="form-horizontal">
+    <form class="group">
+        <fieldset role="group">
+            <button type="submit" name="filter" value="incomplete">Show Incomplete</button>
+        </fieldset>
+    </form>
+    <form role="search">
+        <input name="@PlayersController.GameAccountField" type="search" placeholder="GW2 Name to search for" />
+        <button type="submit">Search</button>
+    </form>
+</div>
+@if (Model != null)
+{
+    <table class="striped">
+        <thead class="table-header-fixated">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">GW2 Name</th>
+            <th scope="col">Discord Name</th>
+            <th scope="col">Discord UserId</th>
+            <th scope="col">Memberships</th>
+            <th scope="col">Update</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var player in Model)
+        {
+            await Html.RenderPartialAsync("Components/PlayerRow", player);
+        }
+        </tbody>
+    </table>
+}

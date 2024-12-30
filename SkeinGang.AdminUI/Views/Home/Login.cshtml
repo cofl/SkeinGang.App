@@ -1,0 +1,22 @@
+﻿@model SkeinGang.AdminUI.Models.LoginForm
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Login";
+}
+
+<section>
+    <form asp-action="PostLogin" method="post">
+        <label asp-for="Username">Username:</label>
+        <input asp-for="Username" required />
+        
+        <label asp-for="Password">Password:</label>
+        <input asp-for="Password" placeholder="Password" required />
+
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p class="error">@error.ErrorMessage</p>
+        }
+        
+        <button type="submit">Login</button>
+    </form>
+</section>

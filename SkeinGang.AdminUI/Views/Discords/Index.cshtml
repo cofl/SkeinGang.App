@@ -1,0 +1,26 @@
+﻿@model List<SkeinGang.AdminUI.Models.DiscordServerDto>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Discord Servers";
+}
+
+<div style="display: flex; flex-direction: row-reverse">
+    <a asp-action="Create" type="button">Create Discord Server</a>
+</div>
+<section>
+    <table class="striped">
+        <thead>
+        <tr>
+            <th scope="col">Discord Server ID</th>
+            <th scope="col">Server Name</th>
+            <th scope="col">Server ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var server in Model)
+        {
+            await Html.RenderPartialAsync("Components/DiscordServerRow", server);
+        }
+        </tbody>
+    </table>
+</section>

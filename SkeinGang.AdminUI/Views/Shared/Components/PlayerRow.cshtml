@@ -1,0 +1,13 @@
+﻿@model SkeinGang.AdminUI.Models.PlayerDto
+
+<tr>
+    <form onsubmit="setTimeout(() => disableUpdateButton(@Model.Id), 0)" asp-action="UpdatePlayer" method="post">
+        <input asp-for="Id" value="@Model.Id" />
+        <td><input asp-for="Id" type="text" value="@Model.Id" disabled /></td>
+        <td><input asp-for="GameAccount" value="@Model.GameAccount" oninput="enableUpdateButton(@Model.Id)" /></td>
+        <td><input asp-for="DiscordAccountName" value="@Model.DiscordAccountName" oninput="enableUpdateButton(@Model.Id)" /></td>
+        <td><input asp-for="DiscordAccountId" type="text" value="@Model.DiscordAccountId" oninput="enableUpdateButton(@Model.Id)" /></td>
+        <td><input asp-for="MembershipCount" value="@Model.MembershipCount" disabled /></td>
+        <td><input id="update_@Model.Id" type="submit" value="Update" disabled /></td>
+    </form>
+</tr>
