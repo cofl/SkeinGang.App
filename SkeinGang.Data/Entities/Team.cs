@@ -15,9 +15,9 @@ public class Team
     
     public int HoldSlots { get; set; }
 
-    public ContentDifficulty ContentDifficulty { get; set; }
+    public required ContentDifficulty ContentDifficulty { get; set; }
 
-    public ContentFocus ContentFocus { get; set; }
+    public required ContentFocus ContentFocus { get; set; }
 
 
     [MaxLength(500)]
@@ -27,27 +27,27 @@ public class Team
 
     public string? DiscordGroupId { get; set; }
 
-    public ExperienceLevel ExperienceLevel { get; set; }
+    public required ExperienceLevel ExperienceLevel { get; set; }
 
     [MaxLength(100)]
-    public string Name { get; set; } = null!;
+    public required string Name { get; set; } = null!;
 
-    public Region Region { get; set; }
+    public required Region Region { get; set; }
 
     public byte[]? Icon { get; set; }
 
     public bool IsArchived { get; set; }
 
-    public long DiscordServerId { get; set; }
+    public required long DiscordServerId { get; set; }
     public virtual DiscordServer DiscordServer { get; set; } = null!;
 
     [MaxLength(100)]
     public string Slug { get; private set; } = null!;
 
-    public IsoDayOfWeek DayOfWeekRaid { get; set; }
-    public LocalTime TimeOfRaid { get; set; }
+    public required IsoDayOfWeek DayOfWeekRaid { get; set; }
+    public required LocalTime TimeOfRaid { get; set; }
     public Duration RunDuration { get; set; }
-    public DateTimeZone TimeZone { get; set; } = null!;
+    public required DateTimeZone TimeZone { get; set; } = null!;
     public bool FollowsSummerTime { get; set; }
 
     public virtual ICollection<TeamMembership> TeamMemberships { get; set; } = null!;

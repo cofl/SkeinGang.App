@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using SkeinGang.AdminUI.Models;
 using SkeinGang.AdminUI.Services;
 
 namespace SkeinGang.AdminUI.Controllers;
 
 [ApiExplorerSettings(IgnoreApi = true)]
 [Route("/admin-ui/statics")]
-public class TeamsController(TeamService teams): Controller
+public class TeamsController(
+    TeamService teams
+): Controller
 {
     [HttpGet]
     public IActionResult Index()
@@ -15,10 +18,11 @@ public class TeamsController(TeamService teams): Controller
     [HttpGet]
     [Route("edit/{teamId:long}")]
     public IActionResult EditTeam(long teamId) => throw new NotImplementedException();
-    
+
     [HttpGet]
     [Route("create")]
-    public IActionResult Create() => throw new NotImplementedException();
+    public IActionResult Create()
+        => View();
     
     [HttpGet]
     [Route("members/find-user")]
@@ -31,10 +35,14 @@ public class TeamsController(TeamService teams): Controller
     [HttpPost]
     [Route("updateStaticRow")]
     public IActionResult UpdateTeamRow() => throw new NotImplementedException();
-    
+
     [HttpPost]
     [Route("createStatic")]
-    public IActionResult CreateTeam() => throw new NotImplementedException();
+    public IActionResult CreateTeam(TeamDto team)
+    {
+        var created = teams.Create(team);
+        return this.SeeOther(Url.Action("EditTeam", "Teams", values: new { teamId = created.TeamId })!);
+    }
     
     [HttpGet]
     [Route("{teamId:long}/memberSearch")]

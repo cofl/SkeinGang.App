@@ -11,45 +11,66 @@ namespace SkeinGang.AdminUI.Services;
 
 public class SelectEnumService(IOptions<JsonOptions> jsonOptions)
 {
-    private record EnumOption(string Text, string Value);
-    private readonly Dictionary<Type, List<EnumOption>> _options = [];
+    private readonly Dictionary<Type, List<SelectListItem>> _options = [];
+
+    private static List<string> DefaultTimeZones { get; } =
+    [
+        "Europe/Brussels",
+        "America/New_York",
+        "America/Los_Angeles",
+        "Australia/Sydney",
+        "UTC"
+    ];
+
+    // ReSharper disable once MemberCanBeMadeStatic.Global
+#pragma warning disable CA1822
+    internal List<SelectListItem> AsSelectOptions(DateTimeZone zone) =>
+        DefaultTimeZones
+            .Select(a => new SelectListItem(a, a, a == zone.Id))
+            .ToList();
+#pragma warning restore CA1822
 
     internal List<SelectListItem> AsSelectOptions<T>(T selected)
         where T : struct, Enum
     {
-        var selectedValue = JsonSerializer.Serialize(selected);
-        if(!_options.TryGetValue(typeof(T), out var options))
-            options = _options[typeof(T)] = GetOptions<T>();
-        return options
-            .Select(item => new SelectListItem(
-                item.Text,
-                item.Value,
-                item.Value == selectedValue
-            ))
-            .ToList();
+        return GetOptions<T>(selected);
     }
-    
-    private List<EnumOption> GetOptions<T>() where T : struct, Enum
-    {
-        return Enum.GetValues<T>()
-            .Select(a => new EnumOption(
-                a.GetCustomName(),
-                JsonSerializer.Serialize(a, jsonOptions.Value.JsonSerializerOptions)))
-            .ToList();
-    }
-}
 
-file static class SelectEnumExtensions
-{
-    internal static string GetCustomName<T>(this T item) where T : struct, Enum
+    private List<SelectListItem> GetOptions<T>(T? selected) where T : struct, Enum
+    {
+        var selectedValue = GetValue(selected) is { } item ? GetValue(item) : null;
+        return Enum.GetValues<T>()
+            .Select(a =>
+            {
+                var value = GetValue(a);
+                ArgumentNullException.ThrowIfNull(value);
+                return new SelectListItem
+                {
+                    Text = GetName(a),
+                    Value = value,
+                    Selected = value == selectedValue
+                };
+            })
+            .ToList();
+    }
+
+    private string? GetValue<T>(T value) => value switch
+    {
+        null => null,
+        _ => JsonSerializer.Deserialize<string>(
+            JsonSerializer.Serialize<T>(value, jsonOptions.Value.JsonSerializerOptions))
+    };
+
+    private static string GetName(Region region) => region switch
+    {
+        Region.NorthAmerica => "North America",
+        Region.Europe => "Europe",
+        Region.Australia => "Australia",
+    };
+
+    private static string GetName<T>(T item) where T : struct, Enum
         => item switch
         {
-            Region region => region switch
-            {
-                Region.NorthAmerica => "North America",
-                Region.Europe => "Europe",
-                Region.Australia => "Australia",
-            },
             ContentDifficulty difficulty => difficulty switch
             {
                 ContentDifficulty.NormalMode => "NM",
@@ -71,15 +92,10 @@ file static class SelectEnumExtensions
             },
             ExperienceLevel rating => rating.ToString(),
             IsoDayOfWeek dayOfWeek => dayOfWeek.ToString(),
-            _ => item.GetEnumMemberName() 
+            _ => typeof(T)
+                     .GetProperty(item.ToString())
+                     ?.GetCustomAttribute<EnumMemberAttribute>()
+                     ?.Value
+                 ?? item.ToString()
         };
-
-    internal static string GetEnumMemberName<T>(this T value)
-        where T : struct, Enum =>
-        typeof(T)
-            .GetProperty(value.ToString())
-            ?.GetCustomAttribute<EnumMemberAttribute>()
-            ?.Value
-        ?? value.ToString();
-    
 }

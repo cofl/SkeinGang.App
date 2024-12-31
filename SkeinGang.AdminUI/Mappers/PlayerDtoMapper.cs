@@ -10,7 +10,6 @@ public static partial class PlayerDtoMapper
     [MapProperty(nameof(Player.PlayerId), nameof(PlayerDto.Id))]
     [MapProperty(nameof(Player.TeamMemberships), nameof(PlayerDto.MembershipCount))]
     public static partial PlayerDto ToDto(this Player player);
-    
     public static partial IQueryable<PlayerDto> ProjectToDto(this IQueryable<Player> players);
 
     [MapperIgnoreSource(nameof(PlayerDto.MembershipCount))]

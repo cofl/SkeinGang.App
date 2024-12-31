@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SkeinGang.AdminUI.Models;
 
@@ -10,6 +11,6 @@ public record DiscordServerDto
     [FromForm]
     public required string? ServerName { get; init; }
     
-    [FromForm]
+    [FromForm, DataType(DataType.Text)]
     public required long? ServerId { get; init; }
 }

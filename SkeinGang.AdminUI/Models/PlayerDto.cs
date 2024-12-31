@@ -17,7 +17,7 @@ public record PlayerDto
     
     [FromForm, DataType(DataType.Text)]
     public long? DiscordAccountId { get; init; }
-    
+
     [BindNever, DataType(DataType.Text)]
     public int? MembershipCount { get; init; }
 }

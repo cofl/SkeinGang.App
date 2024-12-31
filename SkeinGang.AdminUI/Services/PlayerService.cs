@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SkeinGang.AdminUI.Models;
 using SkeinGang.Data.Context;
 using SkeinGang.Data.Entities;
@@ -41,12 +42,13 @@ public class PlayerService(DataContext context)
                 paramName: nameof(player),
                 message: $"{nameof(player.Id)} must be null."
             );
-        var model = context.Players.Add(new Player
+        var model = new Player
         {
             GameAccount = player.GameAccount,
             DiscordAccountName = player.DiscordAccountName,
             DiscordAccountId = player.DiscordAccountId,
-        }).Entity;
+        };
+        context.Players.Add(model);
         context.SaveChanges();
         return model.ToDto();
     }
@@ -60,5 +62,17 @@ public class PlayerService(DataContext context)
         model.ApplyUpdate(player);
         context.SaveChanges();
         return model.ToDto();
+    }
+}
+
+file static class PlayerServiceExtensions
+{
+    internal static IQueryable<Player> IncludePlayerDtoRelated(this IQueryable<Player> teams)
+        => teams.Include(t => t.TeamMemberships);
+
+    internal static Player EntityWithDtoRelated(this EntityEntry<Player> entry)
+    {
+        entry.Reference(entity => entity.TeamMemberships).Load();
+        return entry.Entity;
     }
 }

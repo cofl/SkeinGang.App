@@ -1,0 +1,16 @@
+@model dynamic
+@using SkeinGang.AdminUI.Services
+@inject DiscordServerService DiscordServers
+
+@{
+    var options = DiscordServers
+        .FindAll()
+        .Select(server => new SelectListItem
+        {
+            Text = server.ServerName,
+            Value = server.Id.ToString(),
+            Selected = server.Id == Model.Selected,
+        });
+}
+
+<select name="@Model.Name" asp-items="options"></select>

@@ -25,9 +25,9 @@ public class DiscordServerService(DataContext context)
         {
             ServerId = server.ServerId,
             ServerName = server.ServerName,
-        }).Entity;
+        });
         context.SaveChanges();
-        return model.ToDto();
+        return model.Entity.ToDto();
     }
 
     public DiscordServerDto Update(DiscordServerDto discordServer)

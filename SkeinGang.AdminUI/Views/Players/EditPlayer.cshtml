@@ -6,28 +6,28 @@
 }
 
 <section>
-    <form asp-action="PostEditPlayer" method="post">
-        <input asp-for="Id" value="@Model.Id" />
+    <form asp-action="PostEditPlayer" method="post" data-model-id="@Model.Id">
+        <input asp-for="Id" />
         <label>
             ID
-            <input asp-for="Id" type="text" value="@Model.Id" disabled/>
+            <input asp-for="Id" type="text" disabled/>
         </label>
         <label>
             GW2 Name
-            <input asp-for="GameAccount" value="@Model.GameAccount" oninput="enableUpdateButton()"/>
+            <input asp-for="GameAccount" />
         </label>
         <label>
             Discord Name
-            <input asp-for="DiscordAccountName" value="@Model.DiscordAccountName" oninput="enableUpdateButton()"/>
+            <input asp-for="DiscordAccountName" />
         </label>
         <label>
             Discord UserId
-            <input asp-for="DiscordAccountId" type="text" value="@Model.DiscordAccountId" oninput="enableUpdateButton()"/>
+            <input asp-for="DiscordAccountId" type="text" />
         </label>
         <label>
             Memberships
-            <input asp-for="MembershipCount" value="@Model.MembershipCount" disabled/>
+            <input asp-for="MembershipCount" disabled/>
         </label>
-        <input id="update" type="submit" value="Update" disabled/>
+        <input type="submit" value="Update" disabled/>
     </form>
 </section>

@@ -74,6 +74,7 @@ internal static class StartupExtensions
                 options.Filters.Add<NoContentResponseFilter>();
                 options.ModelBinderProviders.Insert(0, new JsonEnumModelBinderProvider());
                 options.ModelBinderProviders.Insert(0, new LocalTimeModelBinderProvider());
+                options.ModelBinderProviders.Insert(0, new DateTimeZoneBinderProvider());
             }).AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(
