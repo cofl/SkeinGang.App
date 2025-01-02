@@ -16,7 +16,7 @@ public class PlayerService(DataContext context)
                     .OrderBy(player => player.PlayerId)
                     .Take(50),
             var unfiltered => unfiltered
-                .OrderBy(player => player.PlayerId)
+                .OrderBy(player => player.PlayerId),
         })
         .ProjectToDto()
         .ToList();

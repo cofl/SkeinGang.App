@@ -3,7 +3,7 @@
 namespace SkeinGang.Api.Models;
 
 /// <summary>
-/// A list of results. 
+///     A list of results.
 /// </summary>
 /// <param name="HasMore">If more results can be requested by adjusting the limit/offset parameters of the query.</param>
 /// <param name="Data">The list of results.</param>

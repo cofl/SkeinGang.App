@@ -16,14 +16,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Htmx" Version="1.8.1" />
-      <PackageReference Include="Htmx.TagHelpers" Version="1.8.1" />
-      <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="9.0.0" />
-      <PackageReference Include="Riok.Mapperly" Version="4.1.1" />
+        <PackageReference Include="Htmx" Version="1.8.1" />
+        <PackageReference Include="Htmx.TagHelpers" Version="1.8.1" />
+        <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="9.0.0" />
+        <PackageReference Include="Riok.Mapperly" Version="4.1.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SkeinGang.Data\SkeinGang.Data.csproj" />
+        <ProjectReference Include="..\SkeinGang.Data\SkeinGang.Data.csproj" />
     </ItemGroup>
 
 </Project>

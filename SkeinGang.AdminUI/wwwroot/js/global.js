@@ -24,7 +24,7 @@ function disableUpdateButton(id) {
  * @param {EventTarget} target
  * @returns {HTMLFormElement | null}
  */
-function relatedForm(target){
+function relatedForm(target) {
     if (!(target instanceof HTMLInputElement && target.type !== "hidden" && target.type !== "submit")
         && !(target instanceof HTMLSelectElement)
         && !(target instanceof HTMLButtonElement))
@@ -33,17 +33,17 @@ function relatedForm(target){
     const form = target.form
     if (!form || !form.hasAttribute("data-model-id"))
         return null
-    
+
     return form
 }
 
 window.onchange = window.oninput = (event) => {
     const form = relatedForm(event.target)
-    if(!form) return
-    
+    if (!form) return
+
     const submit = Array.from(form.elements)
         .find(element => element.type === "submit")
-    if(submit) submit.disabled = false
+    if (submit) submit.disabled = false
 }
 
 window.onsubmit = (event) => {
@@ -52,5 +52,5 @@ window.onsubmit = (event) => {
 
     const submit = Array.from(event.target.elements)
         .find(element => element.type === "submit")
-    if(submit) setTimeout(() => submit.disabled = true, 0)
+    if (submit) setTimeout(() => submit.disabled = true, 0)
 }

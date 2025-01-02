@@ -8,7 +8,7 @@ public enum ExperienceLevel
     [JsonStringEnumMemberName("progression")]
     [EnumMember(Value = "progression")]
     Progression,
-        
+
     [JsonStringEnumMemberName("experienced")]
     [EnumMember(Value = "experienced")]
     Experienced,

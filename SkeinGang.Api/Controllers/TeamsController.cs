@@ -8,7 +8,7 @@ using SkeinGang.Api.Util;
 namespace SkeinGang.Api.Controllers;
 
 /// <summary>
-/// Controller for teams.
+///     Controller for teams.
 /// </summary>
 /// <param name="teams">Service for interfacing with teams.</param>
 /// <param name="highlighted">Service for interfacing with team highlights.</param>
@@ -18,12 +18,12 @@ namespace SkeinGang.Api.Controllers;
 public class TeamsController(TeamService teams, HighlightService highlighted) : ControllerBase
 {
     /// <summary>
-    /// Get all teams.
+    ///     Get all teams.
     /// </summary>
     /// <param name="parameters">Optional filters for the query.</param>
     /// <returns>A result containing a (possibly partial) list of results.</returns>
     /// <remarks>
-    /// Get all teams with optional filters. By default, archived teams are excluded.
+    ///     Get all teams with optional filters. By default, archived teams are excluded.
     /// </remarks>
     [HttpGet]
     [ProducesResponseType<ResultDto<TeamDto>>(StatusCodes.Status200OK)]
@@ -52,11 +52,11 @@ public class TeamsController(TeamService teams, HighlightService highlighted) : 
             parameters.HasSlots
                 ? new TeamFilter.HasEmptySlots(parameters.MinSlots ?? 0,
                     parameters.MaxSlots ?? TeamIndexParameters.MaximumTeamCapacity)
-                : null
+                : null,
         });
 
     /// <summary>
-    /// Get a team by ID number.
+    ///     Get a team by ID number.
     /// </summary>
     /// <param name="teamId">The ID of the team to fetch.</param>
     /// <returns>The team, with detailed member information.</returns>
@@ -67,7 +67,7 @@ public class TeamsController(TeamService teams, HighlightService highlighted) : 
         => teams.TryGetTeam(teamId, out var team) ? Ok(team) : NotFound();
 
     /// <summary>
-    /// Get a team by name.
+    ///     Get a team by name.
     /// </summary>
     /// <param name="slug">The globally-unique name of the team to fetch.</param>
     /// <returns>The team, with detailed member information.</returns>
@@ -78,7 +78,7 @@ public class TeamsController(TeamService teams, HighlightService highlighted) : 
         => teams.TryGetTeam(slug, out var team) ? Ok(team) : NotFound();
 
     /// <summary>
-    /// Get highlighted teams.
+    ///     Get highlighted teams.
     /// </summary>
     /// <returns>A result containing all highlighted teams in a list.</returns>
     [HttpGet("highlighted")]
@@ -86,14 +86,12 @@ public class TeamsController(TeamService teams, HighlightService highlighted) : 
         teams.GetAll(highlighted.CurrentlyHighlighted);
 
     /// <summary>
-    /// Empty the list of highlighted teams.
+    ///     Empty the list of highlighted teams.
     /// </summary>
     /// <remarks>
-    /// Clear the list of highlighted teams. The next GET request to this endpoint will repopulate the list.
+    ///     Clear the list of highlighted teams. The next GET request to this endpoint will repopulate the list.
     /// </remarks>
     [HttpDelete("highlighted")]
-    public void DeleteHighlighted()
-    {
+    public void DeleteHighlighted() =>
         highlighted.RemoveAllCurrentlyHighlighted();
-    }
 }

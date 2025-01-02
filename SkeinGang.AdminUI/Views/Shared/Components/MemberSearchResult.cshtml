@@ -17,10 +17,11 @@
         @for (var i = 0; i < Model.Players.Count; i += 1)
         {
             <tr id="row_@Model.Players[i].Id">
-                <td display="none"><input asp-for="Players[i].Id" readonly/></td>
-                <td><input asp-for="Players[i].GameAccount" readonly/></td>
-                <td><input asp-for="Players[i].DiscordAccountName" readonly/></td>
-                <td><select name="MembershipType" asp-items="Enums.AsSelectOptions(MembershipType.Member)"></select></td>
+                <td display="none"><input asp-for="Players[i].Id" readonly /></td>
+                <td><input asp-for="Players[i].GameAccount" readonly /></td>
+                <td><input asp-for="Players[i].DiscordAccountName" readonly /></td>
+                <td><select name="MembershipType" asp-items="Enums.AsSelectOptions(MembershipType.Member)"></select>
+                </td>
                 <td>
                     <button type="button"
                             hx-target="#static-members"
@@ -28,7 +29,8 @@
                             hx-controller="TeamMembers"
                             hx-action="AddTeamMember"
                             hx-route-teamId="@Model.TeamId"
-                            hx-include="closest tr">Add</button>
+                            hx-include="closest tr">Add
+                    </button>
                 </td>
             </tr>
         }

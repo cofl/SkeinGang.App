@@ -1,9 +1,9 @@
-﻿input[type='number']{
+﻿input[type='number'] {
     width: 70px;
     padding: 8px 12px;
 }
 
-input[type='checkbox']{
+input[type='checkbox'] {
     width: 35px;
     height: 35px;
 }
@@ -16,7 +16,7 @@ td {
     padding: 4px 3px;
 }
 
-td:has(input[type='checkbox']){
+td:has(input[type='checkbox']) {
     text-align: center;
 }
 

@@ -14,8 +14,8 @@
             <p class="error">@error.ErrorMessage</p>
         }
     }
-    
-    @{ await Html.RenderPartialAsync("Components/TeamForm", Model);}
-    
+
+    @{ await Html.RenderPartialAsync("Components/TeamForm", Model); }
+
     <input type="submit" value="Save" disabled>
 </form>

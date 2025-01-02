@@ -5,12 +5,14 @@ namespace SkeinGang.AdminUI.Models;
 
 public record DiscordServerDto
 {
-    [HiddenInput, FromForm]
+    [HiddenInput]
+    [FromForm]
     public required long? Id { get; init; }
-    
+
     [FromForm]
     public required string? ServerName { get; init; }
-    
-    [FromForm, DataType(DataType.Text)]
+
+    [FromForm]
+    [DataType(DataType.Text)]
     public required long? ServerId { get; init; }
 }

@@ -6,7 +6,7 @@
 
 <label>
     Static Name:
-    <input asp-for="Name"/>
+    <input asp-for="Name" />
 </label>
 <label>
     Region:
@@ -24,46 +24,46 @@
 </label>
 <label>
     Difficulty Level:
-    <select 
+    <select
         name="@nameof(Model.ContentDifficulty)"
         asp-items="Enums.AsSelectOptions(Model.ContentDifficulty)"
     ></select>
 </label>
 <label>
     Experience Level:
-    <select 
-        name="@nameof(Model.ExperienceLevel)" 
+    <select
+        name="@nameof(Model.ExperienceLevel)"
         asp-items="Enums.AsSelectOptions(Model.ExperienceLevel)"
     ></select>
 </label>
 <label>
     Day of Raid:
-    <select 
-        name="@nameof(Model.DayOfRaid)" 
+    <select
+        name="@nameof(Model.DayOfRaid)"
         asp-items="Enums.AsSelectOptions(Model.DayOfRaid)"
     ></select>
 </label>
 <label>
     Discord Server:
-    <select 
+    <select
         name="@nameof(Model.DiscordServerId)"
         asp-items="Servers.AsSelectOptions(Model.DiscordServerId)"
     ></select>
 </label>
 <label>
     Time of Raid:
-    <input asp-for="TimeOfRaid"/>
+    <input asp-for="TimeOfRaid" />
 </label>
 <label>
     Time Zone:
-    <select 
+    <select
         name="TimeZone"
         asp-items="Enums.AsSelectOptions(Model.TimeZone)"
     ></select>
 </label>
 <label>
     Follows Summer Time:
-    <input asp-for="FollowsSummerTime"/>
+    <input asp-for="FollowsSummerTime" />
 </label>
 <label>
     Hold Slots:
@@ -71,5 +71,5 @@
 </label>
 <label>
     Archived:
-    <input asp-for="IsArchived"/>
+    <input asp-for="IsArchived" />
 </label>

@@ -8,11 +8,11 @@ public enum MembershipType
     [JsonStringEnumMemberName("member")]
     [EnumMember(Value = "member")]
     Member,
-    
+
     [JsonStringEnumMemberName("static_rep")]
     [EnumMember(Value = "static_rep")]
     StaticRep,
-    
+
     [JsonStringEnumMemberName("honorary")]
     [EnumMember(Value = "honorary")]
     Honorary,

@@ -10,7 +10,7 @@ internal class DateTimeZoneBinder : IModelBinder
         var rawData = bindingContext.ValueProvider.GetValue(bindingContext.ModelName).FirstValue;
         if (string.IsNullOrEmpty(rawData))
             bindingContext.Result = ModelBindingResult.Success(null);
-        else if(DateTimeZoneProviders.Tzdb.GetZoneOrNull(rawData) is {} zone)
+        else if (DateTimeZoneProviders.Tzdb.GetZoneOrNull(rawData) is { } zone)
             bindingContext.Result = ModelBindingResult.Success(zone);
         else
         {
@@ -18,6 +18,7 @@ internal class DateTimeZoneBinder : IModelBinder
                 $"The value '{rawData} is not a valid time zone. Refer to https://en.wikipedia.org/wiki/List_of_tz_database_time_zones");
             bindingContext.Result = ModelBindingResult.Failed();
         }
+
         return Task.CompletedTask;
     }
 }

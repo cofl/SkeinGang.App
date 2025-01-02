@@ -1,15 +1,16 @@
 ﻿@model SkeinGang.AdminUI.Models.PlayerDto
 
+@{ var formId = $"model_{Model.Id}"; }
 <tr>
     <td style="display: none">
-        <form id="model_@Model.Id" data-model-id="@Model.Id" asp-action="UpdatePlayer" method="post">
-            <input asp-for="Id"/>
+        <form id="@formId" data-model-id="@Model.Id" asp-action="UpdatePlayer" method="post">
+            <input asp-for="Id" />
         </form>
     </td>
-    <td><input form="model_@Model.Id" asp-for="Id" type="text" disabled/></td>
-    <td><input form="model_@Model.Id" asp-for="GameAccount"/></td>
-    <td><input form="model_@Model.Id" asp-for="DiscordAccountName"/></td>
-    <td><input form="model_@Model.Id" asp-for="DiscordAccountId" type="text"/></td>
-    <td><input form="model_@Model.Id" asp-for="MembershipCount" disabled/></td>
-    <td><input form="model_@Model.Id" type="submit" value="Update" disabled/></td>
+    <td><input form="@formId" asp-for="Id" type="text" disabled /></td>
+    <td><input form="@formId" asp-for="GameAccount" /></td>
+    <td><input form="@formId" asp-for="DiscordAccountName" /></td>
+    <td><input form="@formId" asp-for="DiscordAccountId" type="text" /></td>
+    <td><input form="@formId" asp-for="MembershipCount" disabled /></td>
+    <td><input form="@formId" type="submit" value="Update" disabled /></td>
 </tr>

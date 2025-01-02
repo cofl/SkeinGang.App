@@ -18,6 +18,7 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
             .UseLazyLoadingProxies()
             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
             .UseNpgsql(options => options.UseNodaTime());
+
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         configurationBuilder

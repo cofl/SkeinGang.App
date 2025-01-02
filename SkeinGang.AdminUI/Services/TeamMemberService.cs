@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using SkeinGang.AdminUI.Models;
+﻿using SkeinGang.AdminUI.Models;
 using SkeinGang.Data.Context;
 using SkeinGang.Data.Enums;
 
@@ -11,7 +10,7 @@ public class TeamMemberService(DataContext context)
     {
         Console.WriteLine($"Updating membership type {memberId} to {newType}");
         var member = context.TeamMemberships
-            .Single(m  => m.Id == memberId && m.StaticId == teamId);
+            .Single(m => m.Id == memberId && m.StaticId == teamId);
         member.MembershipType = newType;
         context.Update(member);
         context.SaveChanges();
@@ -25,8 +24,6 @@ public class TeamMemberService(DataContext context)
         context.SaveChanges();
     }
 
-    internal void Add(long teamId, PlayerDto player)
-    {
+    internal void Add(long teamId, PlayerDto player) =>
         throw new NotImplementedException();
-    }
 }

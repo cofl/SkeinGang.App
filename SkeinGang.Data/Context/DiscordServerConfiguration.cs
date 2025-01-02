@@ -4,7 +4,7 @@ using SkeinGang.Data.Entities;
 
 namespace SkeinGang.Data.Context;
 
-internal class DiscordServerConfiguration: IEntityTypeConfiguration<DiscordServer>
+internal class DiscordServerConfiguration : IEntityTypeConfiguration<DiscordServer>
 {
     public void Configure(EntityTypeBuilder<DiscordServer> entity)
     {

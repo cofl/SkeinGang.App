@@ -12,12 +12,17 @@ namespace SkeinGang.AdminUI.Controllers;
 [Authorize(Roles = AdminUIRoles.Moderator)]
 public class HomeController(IConfiguration config) : Controller
 {
-    private string ModeratorUsername => config["MODERATOR_USER"] ?? throw new ArgumentNullException(nameof(ModeratorUsername), "MODERATOR_USER must be set.");
-    private string ModeratorPassword => config["MODERATOR_PASSWORD"] ?? throw new ArgumentNullException(nameof(ModeratorPassword), "MODERATOR_PASSWORD must be set.");
-    
+    private string ModeratorUsername => config["MODERATOR_USER"] ??
+                                        throw new ArgumentNullException(nameof(ModeratorUsername),
+                                            "MODERATOR_USER must be set.");
+
+    private string ModeratorPassword => config["MODERATOR_PASSWORD"] ??
+                                        throw new ArgumentNullException(nameof(ModeratorPassword),
+                                            "MODERATOR_PASSWORD must be set.");
+
     [HttpGet]
     public IActionResult Index() => View();
-    
+
     [HttpGet("[action]")]
     [AllowAnonymous]
     public IActionResult Login() => View();
@@ -39,12 +44,14 @@ public class HomeController(IConfiguration config) : Controller
             new(ClaimTypes.Role, AdminUIRoles.Moderator),
         };
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(claimsIdentity));
 
         return LocalRedirect(returnUrl ?? Url.Action("Index", "Home")!);
     }
 
-    [HttpGet("[action]"), HttpPost("[action]")]
+    [HttpGet("[action]")]
+    [HttpPost("[action]")]
     public async Task<IActionResult> LogoutAsync(string? returnUrl = null)
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

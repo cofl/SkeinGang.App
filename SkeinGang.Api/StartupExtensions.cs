@@ -17,13 +17,13 @@ namespace SkeinGang.Api;
 internal static class StartupExtensions
 {
     /// <summary>
-    /// Register services and configure our application.
+    ///     Register services and configure our application.
     /// </summary>
     /// <param name="builder">A builder for registering services on.</param>
     /// <returns>A built application, with configured services but without a configured pipeline.</returns>
     /// <seealso cref="ConfigurePipeline" />
     /// <remarks>
-    /// The order of operations in this method is not significant.
+    ///     The order of operations in this method is not significant.
     /// </remarks>
     internal static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
@@ -66,7 +66,7 @@ internal static class StartupExtensions
             options.LowercaseUrls = true;
             options.LowercaseQueryStrings = true;
         });
-        
+
         builder.AddAdminUI();
         builder.Services
             .AddMvc(options =>
@@ -84,7 +84,7 @@ internal static class StartupExtensions
                 options.JsonSerializerOptions.Converters.Add(new LocalTimeToStringJsonConverter());
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
             });
-        
+
         // Authentication/Authorization
         builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
@@ -99,7 +99,7 @@ internal static class StartupExtensions
 
         // Health Checks
         builder.Services.AddHealthChecks()
-            .AddDbContextCheck<DataContext>(name: "db");
+            .AddDbContextCheck<DataContext>("db");
 
         // Our own services.
         builder.Services.AddScoped<TeamService>();
@@ -113,13 +113,13 @@ internal static class StartupExtensions
     }
 
     /// <summary>
-    /// Configure a built web app's response pipeline, before it is started.
+    ///     Configure a built web app's response pipeline, before it is started.
     /// </summary>
     /// <param name="app">The app to configure.</param>
     /// <returns>The configured app.</returns>
     /// <remarks>
-    /// The order of calls in this method is important. Middleware will be
-    /// processed from top to bottom.
+    ///     The order of calls in this method is important. Middleware will be
+    ///     processed from top to bottom.
     /// </remarks>
     internal static WebApplication ConfigurePipeline(this WebApplication app)
     {
@@ -139,8 +139,8 @@ internal static class StartupExtensions
         }
 
         app.UseAdminUIResources();
-        
-        
+
+
         app.MapControllers();
 
         return app;

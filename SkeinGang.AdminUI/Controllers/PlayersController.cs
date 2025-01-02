@@ -51,7 +51,7 @@ public class PlayersController(PlayerService players) : Controller
     [HttpPost("[action]")]
     public void UpdatePlayer(PlayerDto player)
     {
-        if(player.Id is null)
+        if (player.Id is null)
             players.Create(player);
         else
             players.Update(player);

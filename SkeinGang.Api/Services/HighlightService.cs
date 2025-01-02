@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
 using Quartz;
 using SkeinGang.Api.Jobs;
 using SkeinGang.Data.Context;
@@ -36,7 +35,7 @@ internal static class HighlightServiceExtensions
                 .WithCronSchedule("0 0 * * * ?"),
             job => job.WithIdentity(RemoveInvalidCurrentlyHighlightedJob.Key)
         );
-        
+
         // Schedule all currently-highlighted teams to be removed at midnight on Sunday.
         quartz.ScheduleJob<RemoveAllCurrentlyHighlightedJob>(
             trigger => trigger
@@ -69,10 +68,10 @@ file class HighlightServiceSingleton(ILogger<HighlightService> logger) : IHighli
             .OrderBy(r => EF.Functions.Random())
             .Take(HighlightCount - CurrentlyHighlightedTeamIds.Count)
             .Select(t => t.TeamId);
-        
+
         CurrentlyHighlightedTeamIds.AddRange(newTeams);
         RecentlyHighlightedTeamIds.AddRange(newTeams);
-        
+
         if (RecentlyHighlightedTeamIds.Count >= HistoryCount)
             RecentlyHighlightedTeamIds.RemoveRange(0, RecentlyHighlightedTeamIds.Count - HistoryCount);
 
@@ -90,7 +89,8 @@ file class HighlightServiceSingleton(ILogger<HighlightService> logger) : IHighli
             .Select(t => t.TeamId)
             .ToHashSet();
         CurrentlyHighlightedTeamIds.RemoveAll(id => badTeams.Contains(id));
-        logger.LogInformation("Removed {count} invalid highlighted teams at {UtcNow}.", badTeams.Count, DateTime.UtcNow);
+        logger.LogInformation("Removed {count} invalid highlighted teams at {UtcNow}.", badTeams.Count,
+            DateTime.UtcNow);
     }
 
     public void RemoveAllCurrentlyHighlighted()

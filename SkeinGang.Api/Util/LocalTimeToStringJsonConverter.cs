@@ -5,7 +5,7 @@ using NodaTime;
 
 namespace SkeinGang.Api.Util;
 
-internal class LocalTimeToStringJsonConverter: JsonConverter<LocalTime>
+internal class LocalTimeToStringJsonConverter : JsonConverter<LocalTime>
 {
     public override LocalTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -16,8 +16,6 @@ internal class LocalTimeToStringJsonConverter: JsonConverter<LocalTime>
         return LocalTime.FromTimeOnly(time);
     }
 
-    public override void Write(Utf8JsonWriter writer, LocalTime value, JsonSerializerOptions options)
-    {
+    public override void Write(Utf8JsonWriter writer, LocalTime value, JsonSerializerOptions options) =>
         writer.WriteStringValue(value.ToString("HH:mm:ss", CultureInfo.InvariantCulture));
-    }
 }

@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace SkeinGang.Api.Util;
 
 /// <summary>
-/// Change the status code for no-content actions to 204 No Content
-/// (i.e., actions returning void or <see cref="Task"/>). 
+///     Change the status code for no-content actions to 204 No Content
+///     (i.e., actions returning void or <see cref="Task" />).
 /// </summary>
 // ReSharper disable once ClassNeverInstantiated.Global
 internal class NoContentResponseFilter : IResultFilter

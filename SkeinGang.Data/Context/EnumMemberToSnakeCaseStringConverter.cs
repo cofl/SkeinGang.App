@@ -11,8 +11,6 @@ internal class EnumMemberToSnakeCaseStringConverter<TEnum>()
         v => Lookup.Values[v])
     where TEnum : struct, Enum
 {
-    private record EnumLookup(Dictionary<TEnum, string> Names, Dictionary<string, TEnum> Values);
-
     private static readonly EnumLookup Lookup = GetNames();
 
     private static EnumLookup GetNames()
@@ -22,11 +20,14 @@ internal class EnumMemberToSnakeCaseStringConverter<TEnum>()
         foreach (var member in typeof(TEnum).GetEnumNames())
         {
             var value = Enum.Parse<TEnum>(member);
-            var name = typeof(TEnum).GetMember(member).Single().GetCustomAttribute<EnumMemberAttribute>(false)?.Value ?? member.ToSnake();
+            var name = typeof(TEnum).GetMember(member).Single().GetCustomAttribute<EnumMemberAttribute>(false)?.Value ??
+                       member.ToSnake();
             names.Add(value, name);
             values.Add(name, value);
         }
-        
+
         return new EnumLookup(names, values);
     }
+
+    private record EnumLookup(Dictionary<TEnum, string> Names, Dictionary<string, TEnum> Values);
 }

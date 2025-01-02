@@ -10,11 +10,13 @@ public record TeamMemberDto
     public long TeamId { get; set; }
     public long MembershipId { get; set; }
 
-    [FromForm, Required]
+    [FromForm]
+    [Required]
     public string GameAccount { get; init; }
-    
-    [FromForm, Required]
+
+    [FromForm]
+    [Required]
     public string DiscordAccountName { get; init; }
-    
+
     public MembershipType MembershipType { get; set; }
 }

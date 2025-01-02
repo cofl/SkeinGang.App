@@ -7,6 +7,8 @@ indent_size = 4
 indent_style = space
 trim_trailing_whitespace = true
 insert_final_newline = true
+ij_xml_space_inside_empty_tag = true
+ij_html_space_inside_empty_tag = true
 
 [*.md]
 trim_trailing_whitespace = false
@@ -15,44 +17,91 @@ trim_trailing_whitespace = false
 indent_style = tab
 tab_width = 4
 
+[*.json]
+indent_size = 2
+
+[*.{cs,cshtml}]
+resharper_csharp_place_attribute_on_same_line = never
+csharp_style_expression_bodied_accessors = true
+csharp_style_expression_bodied_constructors = true
+csharp_style_expression_bodied_indexers = true
+csharp_style_expression_bodied_lambdas = true
+csharp_style_expression_bodied_local_functions = true
+csharp_style_expression_bodied_methods = true
+csharp_style_expression_bodied_operators = true
+csharp_style_expression_bodied_properties = true
+resharper_csharp_trailing_comma_in_multiline_lists = true
+resharper_braces_for_ifelse = not_required
+resharper_braces_for_using = not_required
+resharper_braces_for_for = not_required
+resharper_braces_for_foreach = not_required
+resharper_braces_for_while = not_required
+resharper_braces_for_dowhile = required
+resharper_wrap_before_declaration_rpar = true
+resharper_wrap_before_primary_constructor_declaration_rpar = true
+resharper_place_expr_method_on_single_line = never
+resharper_csharp_namespace_body = file_scoped
+resharper_wrap_multiple_type_parameter_constraints_style = chop_always
+resharper_wrap_enum_declaration = chop_always
+resharper_max_primary_constructor_parameters_on_line = 3
+resharper_wrap_primary_constructor_parameters_style = chop_if_long
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+
+# Keep however functions are declare as-is
+resharper_method_or_operator_body = unset
+resharper_local_function_body = unset
+
+# Force constructors to use {}
+resharper_constructor_or_destructor_body = block_body
+
+# Force `get =>` and `set =>`.
+resharper_accessor_owner_body = expression_body
+
+
 # IntelliJ currently doesn't support dotnet_diagnostic syntax
 # The compiler and Roslyn do, though!
 # noinspection EditorConfigKeyCorrectness
-[*.cs]
+[*.{cs,cshtml}]
 # The switch expression does not handle all possible values of its input type (it is not exhaustive).
-dotnet_diagnostic.CS8509.severity=error
+dotnet_diagnostic.CS8509.severity = error
+
+# Method passes unknown paramName argument to an ArgumentException constructor.
+dotnet_diagnostic.CA2208.severity = silent
+
+# Member 'AsSelectOptions' does not access instance data and can be marked as static
+dotnet_diagnostic.CA1822.severity = none
 
 # Various diagnostics related to Mapperly
 # Make sure we don't map things that don't exist/are impossible!
 # https://mapperly.riok.app/docs/configuration/analyzer-diagnostics/
-dotnet_diagnostic.RMG003.severity=error # No overlapping enum members found.
-dotnet_diagnostic.RMG004.severity=error # Ignored target member not found.
-dotnet_diagnostic.RMG045.severity=error # Ignored target enum member not found.
-dotnet_diagnostic.RMG050.severity=error # Ignored target member was mapped.
-dotnet_diagnostic.RMG052.severity=error # Ignored target member found but nested ignore not supported.
-dotnet_diagnostic.RMG021.severity=error # Ignored source member not found.
-dotnet_diagnostic.RMG044.severity=error # Ignored source enum member not found.
-dotnet_diagnostic.RMG049.severity=error # Ignored source member was mapped.
-dotnet_diagnostic.RMG051.severity=error # Ignored source member found but nested ignore not supported.
-dotnet_diagnostic.RMG009.severity=error # Cannot map to read-only member.
-dotnet_diagnostic.RMG010.severity=error # Cannot map from write-only member.
-dotnet_diagnostic.RMG011.severity=error # Cannot map to write only member path.
-dotnet_diagnostic.RMG015.severity=error # Cannot map to init-only member path.
-dotnet_diagnostic.RMG012.severity=error # Source member not found.
-dotnet_diagnostic.RMG014.severity=error # Cannot map configured constructor.
-dotnet_diagnostic.RMG020.severity=error # Source member not mapped.
-dotnet_diagnostic.RMG031.severity=error # Reference loop detected in constructor member
-dotnet_diagnostic.RMG032.severity=error # Can't map enums ByName in projections.
-dotnet_diagnostic.RMG043.severity=error # Enum fallback not supported when ByValue
-dotnet_diagnostic.RMG060.severity=error # Multiple user mappings discovered without an explicit default
-dotnet_diagnostic.RMG065.severity=error # Cannot configure projection mapping
-dotnet_diagnostic.RMG066.severity=error # No members mapped.
-dotnet_diagnostic.RMG068.severity=error # Cannot inline queryable expression
-dotnet_diagnostic.RMG069.severity=error # Generic/Runtime mapping doesn't match
-dotnet_diagnostic.RMG071.severity=error # Nested property map not used
-dotnet_diagnostic.RMG072.severity=error # Source of referenced map does not match
-dotnet_diagnostic.RMG073.severity=error # Target of referenced map does not match
-dotnet_diagnostic.RMG076.severity=error # Mismatched nullability.
-dotnet_diagnostic.RMG082.severity=error # Additional mapping method parameter not mapped.
-dotnet_diagnostic.RMG083.severity=error # Can't map to read-only.
-dotnet_diagnostic.RMG088.severity=error # Attribute to build the name of enum member missing.
+dotnet_diagnostic.RMG003.severity = error # No overlapping enum members found.
+dotnet_diagnostic.RMG004.severity = error # Ignored target member not found.
+dotnet_diagnostic.RMG045.severity = error # Ignored target enum member not found.
+dotnet_diagnostic.RMG050.severity = error # Ignored target member was mapped.
+dotnet_diagnostic.RMG052.severity = error # Ignored target member found but nested ignore not supported.
+dotnet_diagnostic.RMG021.severity = error # Ignored source member not found.
+dotnet_diagnostic.RMG044.severity = error # Ignored source enum member not found.
+dotnet_diagnostic.RMG049.severity = error # Ignored source member was mapped.
+dotnet_diagnostic.RMG051.severity = error # Ignored source member found but nested ignore not supported.
+dotnet_diagnostic.RMG009.severity = error # Cannot map to read-only member.
+dotnet_diagnostic.RMG010.severity = error # Cannot map from write-only member.
+dotnet_diagnostic.RMG011.severity = error # Cannot map to write only member path.
+dotnet_diagnostic.RMG015.severity = error # Cannot map to init-only member path.
+dotnet_diagnostic.RMG012.severity = error # Source member not found.
+dotnet_diagnostic.RMG014.severity = error # Cannot map configured constructor.
+dotnet_diagnostic.RMG020.severity = error # Source member not mapped.
+dotnet_diagnostic.RMG031.severity = error # Reference loop detected in constructor member
+dotnet_diagnostic.RMG032.severity = error # Can't map enums ByName in projections.
+dotnet_diagnostic.RMG043.severity = error # Enum fallback not supported when ByValue
+dotnet_diagnostic.RMG060.severity = error # Multiple user mappings discovered without an explicit default
+dotnet_diagnostic.RMG065.severity = error # Cannot configure projection mapping
+dotnet_diagnostic.RMG066.severity = error # No members mapped.
+dotnet_diagnostic.RMG068.severity = error # Cannot inline queryable expression
+dotnet_diagnostic.RMG069.severity = error # Generic/Runtime mapping doesn't match
+dotnet_diagnostic.RMG071.severity = error # Nested property map not used
+dotnet_diagnostic.RMG072.severity = error # Source of referenced map does not match
+dotnet_diagnostic.RMG073.severity = error # Target of referenced map does not match
+dotnet_diagnostic.RMG076.severity = error # Mismatched nullability.
+dotnet_diagnostic.RMG082.severity = error # Additional mapping method parameter not mapped.
+dotnet_diagnostic.RMG083.severity = error # Can't map to read-only.
+dotnet_diagnostic.RMG088.severity = error # Attribute to build the name of enum member missing.

@@ -10,13 +10,14 @@ namespace SkeinGang.Data.Entities;
 public class Player
 {
     public long PlayerId { get; private set; }
-    
+
     [MaxLength(255)]
     public required string GameAccount { get; set; }
-    
-    [MaxLength(32), MinLength(2)]
+
+    [MaxLength(32)]
+    [MinLength(2)]
     public required string DiscordAccountName { get; set; }
+
     public long? DiscordAccountId { get; set; }
-    
     public virtual ICollection<TeamMembership> TeamMemberships { get; set; } = null!;
 }

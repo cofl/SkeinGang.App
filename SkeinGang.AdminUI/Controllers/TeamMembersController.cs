@@ -33,7 +33,8 @@ public class TeamMembersController(TeamService teams, TeamMemberService members)
     [HttpPut("members/{memberId:long}")]
     [Consumes(MediaTypeNames.Application.FormUrlEncoded)]
     public IActionResult UpdateTeamMember(long teamId, long memberId,
-        [FromForm, Required] MembershipType membershipType)
+        [FromForm] [Required] MembershipType membershipType
+    )
     {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);

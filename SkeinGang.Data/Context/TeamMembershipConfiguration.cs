@@ -4,7 +4,7 @@ using SkeinGang.Data.Entities;
 
 namespace SkeinGang.Data.Context;
 
-internal class TeamMembershipConfiguration: IEntityTypeConfiguration<TeamMembership>
+internal class TeamMembershipConfiguration : IEntityTypeConfiguration<TeamMembership>
 {
     public void Configure(EntityTypeBuilder<TeamMembership> entity)
     {

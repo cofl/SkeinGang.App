@@ -5,7 +5,7 @@ using SkeinGang.Api.Models;
 namespace SkeinGang.Api.Controllers;
 
 /// <summary>
-/// A controller for retrieving the system health.
+///     A controller for retrieving the system health.
 /// </summary>
 /// <param name="health">The health service.</param>
 [ApiController]
@@ -14,11 +14,11 @@ namespace SkeinGang.Api.Controllers;
 public class StatusController(HealthCheckService health) : ControllerBase
 {
     /// <summary>
-    /// Query the system health.
+    ///     Query the system health.
     /// </summary>
     /// <remarks>
-    /// Execute health checks and report their results.
-    /// The output of this endpoint may be cached for short durations.
+    ///     Execute health checks and report their results.
+    ///     The output of this endpoint may be cached for short durations.
     /// </remarks>
     /// <param name="cancellationToken">A cancellation token.</param>
     /// <returns>A health report.</returns>

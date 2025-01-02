@@ -3,23 +3,29 @@
 @model SkeinGang.AdminUI.Models.TeamDto
 @inject SelectEnumService Enums
 
+@{ var formId = $"model_{Model.TeamId}"; }
 <tr>
     <td style="display: none">
-        <form id="model_@Model.TeamId" data-model-id="@Model.TeamId" asp-action="UpdateTeam" method="post">
-            <input asp-for="TeamId"/>
+        <form id="@formId" data-model-id="@Model.TeamId" asp-action="UpdateTeam" method="post">
+            <input asp-for="TeamId" />
         </form>
     </td>
     <td><a role="button" asp-action="Edit" asp-route-teamId="@Model.TeamId">View</a></td>
-    <td><input form="model_@Model.TeamId" asp-for="Name"/></td>
-    <td><select form="model_@Model.TeamId" name="Region" asp-items="Enums.AsSelectOptions(Model.Region)"></select></td>
-    <td><select form="model_@Model.TeamId" name="ContentFocus" asp-items="Enums.AsSelectOptions(Model.ContentFocus)"></select></td>
-    <td><select form="model_@Model.TeamId" name="ContentDifficulty" asp-items="Enums.AsSelectOptions(Model.ContentDifficulty)"></select></td>
-    <td><select form="model_@Model.TeamId" name="ExperienceLevel" asp-items="Enums.AsSelectOptions(Model.ExperienceLevel)"></select></td>
-    <td><select form="model_@Model.TeamId" name="DayOfRaid" asp-items="Enums.AsSelectOptions(Model.DayOfRaid)"></select></td>
-    <td><input form="model_@Model.TeamId" asp-for="TimeOfRaid"/></td>
-    <td><select form="model_@Model.TeamId" name="TimeZone" asp-items="Enums.AsSelectOptions(Model.TimeZone)"></select></td>
-    <td><input form="model_@Model.TeamId" asp-for="FollowsSummerTime"/></td>
-    <td><input form="model_@Model.TeamId" asp-for="HoldSlots" min="0" max="10"/></td>
-    <td><input form="model_@Model.TeamId" asp-for="IsArchived"/></td>
-    <td><input form="model_@Model.TeamId" type="submit" value="Update" disabled /></td>
+    <td><input form="@formId" asp-for="Name" /></td>
+    <td><select form="@formId" name="Region" asp-items="Enums.AsSelectOptions(Model.Region)"></select></td>
+    <td><select form="@formId" name="ContentFocus"
+                asp-items="Enums.AsSelectOptions(Model.ContentFocus)"></select></td>
+    <td><select form="@formId" name="ContentDifficulty"
+                asp-items="Enums.AsSelectOptions(Model.ContentDifficulty)"></select></td>
+    <td><select form="@formId" name="ExperienceLevel"
+                asp-items="Enums.AsSelectOptions(Model.ExperienceLevel)"></select></td>
+    <td><select form="@formId" name="DayOfRaid" asp-items="Enums.AsSelectOptions(Model.DayOfRaid)"></select>
+    </td>
+    <td><input form="@formId" asp-for="TimeOfRaid" /></td>
+    <td><select form="@formId" name="TimeZone" asp-items="Enums.AsSelectOptions(Model.TimeZone)"></select>
+    </td>
+    <td><input form="@formId" asp-for="FollowsSummerTime" /></td>
+    <td><input form="@formId" asp-for="HoldSlots" min="0" max="10" /></td>
+    <td><input form="@formId" asp-for="IsArchived" /></td>
+    <td><input form="@formId" type="submit" value="Update" disabled /></td>
 </tr>

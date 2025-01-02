@@ -13,23 +13,23 @@ public class TeamService(DataContext context)
             .OrderBy(t => t.Name)
             .ProjectToDto()
             .ToList();
-    
+
     internal TeamDto? FindById(long teamId)
         => context.Teams
             .AsNoTracking()
             .ProjectToDto()
             .FirstOrDefault(team => team.TeamId == teamId);
-    
+
     public TeamWithMembersDto? FindWithMembersById(long teamId)
         => context.Teams
             .AsNoTracking()
             .FirstOrDefault(team => team.TeamId == teamId)
             ?.ToWithMembersDto();
-    
+
     internal TeamDto Create(TeamDto team)
     {
         Assert.MustBeNull(team.TeamId);
-        
+
         var model = context.Teams.AddNew(team.ToEntity());
         context.SaveChanges();
         return model.ToDto();
@@ -38,7 +38,7 @@ public class TeamService(DataContext context)
     internal TeamDto Update(TeamDto team)
     {
         Assert.MustNotBeNull(team.TeamId);
-        
+
         var model = context.Teams
             .AsTracking()
             .IncludeTeamDtoRelated()
@@ -53,7 +53,7 @@ file static class TeamServiceExtensions
 {
     internal static IQueryable<Team> IncludeTeamDtoRelated(this IQueryable<Team> teams)
         => teams.Include(t => t.TeamDetail);
-    
+
     internal static IQueryable<Team> IncludeTeamWithMembersDtoRelated(this IQueryable<Team> teams) =>
         teams
             .Include(t => t.TeamDetail)

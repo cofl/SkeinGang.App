@@ -8,11 +8,11 @@ public enum Region
     [JsonStringEnumMemberName("na")]
     [EnumMember(Value = "na")]
     NorthAmerica,
-    
+
     [JsonStringEnumMemberName("eu")]
     [EnumMember(Value = "eu")]
     Europe,
-    
+
     [JsonStringEnumMemberName("au")]
     [EnumMember(Value = "au")]
     Australia,

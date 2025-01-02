@@ -17,7 +17,7 @@ public static partial class TeamDtoMapper
     [MapperIgnoreSource(nameof(Team.TeamDetail))]
     [MapProperty(nameof(Team.DayOfWeekRaid), nameof(TeamDto.DayOfRaid))]
     public static partial TeamDto ToDto(this Team team);
-    
+
     [MapperIgnoreSource(nameof(TeamDto.TeamId))]
     [MapperIgnoreTarget(nameof(Team.DiscordServer))]
     [MapperIgnoreTarget(nameof(Team.DiscordChannelId))]
@@ -29,8 +29,9 @@ public static partial class TeamDtoMapper
     [MapperIgnoreTarget(nameof(Team.TeamDetail))]
     [MapProperty(nameof(TeamDto.DayOfRaid), nameof(Team.DayOfWeekRaid))]
     public static partial Team ToEntity(this TeamDto dto);
+
     public static partial IQueryable<TeamDto> ProjectToDto(this IQueryable<Team> teams);
-    
+
     [MapperIgnoreTarget(nameof(Team.DiscordServer))]
     [MapperIgnoreTarget(nameof(Team.DiscordChannelId))]
     [MapperIgnoreTarget(nameof(Team.DiscordGroupId))]

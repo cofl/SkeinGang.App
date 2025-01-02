@@ -16,11 +16,12 @@ internal class JsonEnumModelBinder(
         try
         {
             var result = JsonSerializer.Deserialize(data, type, options);
-            bindingContext.Result = ModelBindingResult.Success(result); 
+            bindingContext.Result = ModelBindingResult.Success(result);
         }
         catch (JsonException)
         {
-            bindingContext.ModelState.AddModelError(bindingContext.BinderModelName ?? bindingContext.ModelName, $"The value '{rawData}' is not valid.");
+            bindingContext.ModelState.AddModelError(bindingContext.BinderModelName ?? bindingContext.ModelName,
+                $"The value '{rawData}' is not valid.");
             bindingContext.Result = ModelBindingResult.Failed();
         }
 

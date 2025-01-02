@@ -11,7 +11,7 @@ public class TeamMembership
     public long PlayerId { get; set; }
     public long StaticId { get; set; }
     public MembershipType MembershipType { get; set; }
-    
+
     public virtual Player Player { get; set; } = null!;
     public virtual Team Team { get; set; } = null!;
 }

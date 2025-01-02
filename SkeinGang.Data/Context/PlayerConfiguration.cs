@@ -4,7 +4,7 @@ using SkeinGang.Data.Entities;
 
 namespace SkeinGang.Data.Context;
 
-internal class PlayerConfiguration: IEntityTypeConfiguration<Player>
+internal class PlayerConfiguration : IEntityTypeConfiguration<Player>
 {
     public void Configure(EntityTypeBuilder<Player> entity)
     {

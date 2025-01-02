@@ -34,7 +34,7 @@ internal class RequireSomePropertiesSchemaFilter : ISchemaFilter
                         continue;
                 }
 
-            if(isDefaultRequired)
+            if (isDefaultRequired)
                 schema.Required.Add(key);
         }
     }

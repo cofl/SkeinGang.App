@@ -43,7 +43,7 @@ public class TeamService(DataContext dataContext)
         return new ResultDto<TeamDto>(false, teams);
     }
 
-    internal bool TryGetTeam(long teamId, [NotNullWhen(returnValue: true)] out TeamWithMembersDto? team)
+    internal bool TryGetTeam(long teamId, [NotNullWhen(true)] out TeamWithMembersDto? team)
     {
         var result = dataContext.Teams
             .IncludeTeamWithMembersDtoRelated()
@@ -52,7 +52,7 @@ public class TeamService(DataContext dataContext)
         return result != null;
     }
 
-    internal bool TryGetTeam(string slug, [NotNullWhen(returnValue: true)] out TeamWithMembersDto? team)
+    internal bool TryGetTeam(string slug, [NotNullWhen(true)] out TeamWithMembersDto? team)
     {
         var result = dataContext.Teams
             .IncludeTeamWithMembersDtoRelated()

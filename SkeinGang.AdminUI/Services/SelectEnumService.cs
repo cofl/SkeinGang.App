@@ -17,16 +17,16 @@ internal class SelectEnumService(IOptions<JsonOptions> jsonOptions)
         "America/New_York",
         "America/Los_Angeles",
         "Australia/Sydney",
-        "UTC"
+        "UTC",
     ];
 
     // ReSharper disable once MemberCanBeMadeStatic.Global
-    #pragma warning disable CA1822
+#pragma warning disable CA1822
     internal List<SelectListItem> AsSelectOptions(DateTimeZone zone) =>
         DefaultTimeZones
             .Select(a => new SelectListItem(a, a, a == zone.Id))
             .ToList();
-    #pragma warning restore CA1822
+#pragma warning restore CA1822
 
     internal List<SelectListItem> AsSelectOptions<T>(T selected)
         where T : struct, Enum =>
@@ -44,7 +44,7 @@ internal class SelectEnumService(IOptions<JsonOptions> jsonOptions)
                 {
                     Text = GetName(a),
                     Value = value,
-                    Selected = value == selectedValue
+                    Selected = value == selectedValue,
                 };
             })
             .ToList();
@@ -54,10 +54,10 @@ internal class SelectEnumService(IOptions<JsonOptions> jsonOptions)
     {
         null => null,
         _ => JsonSerializer.Deserialize<string>(
-            JsonSerializer.Serialize<T>(value, jsonOptions.Value.JsonSerializerOptions))
+            JsonSerializer.Serialize<T>(value, jsonOptions.Value.JsonSerializerOptions)),
     };
 
-    #pragma warning disable CS8524
+#pragma warning disable CS8524
     private static string GetName<T>(T item) where T : struct, Enum
         => item switch
         {
@@ -98,7 +98,7 @@ internal class SelectEnumService(IOptions<JsonOptions> jsonOptions)
                      .GetProperty(item.ToString())
                      ?.GetCustomAttribute<EnumMemberAttribute>()
                      ?.Value
-                 ?? item.ToString()
+                 ?? item.ToString(),
         };
-    #pragma warning restore CS8524
+#pragma warning restore CS8524
 }

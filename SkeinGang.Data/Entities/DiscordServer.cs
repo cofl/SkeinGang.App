@@ -11,8 +11,9 @@ public class DiscordServer
 {
     public long Id { get; set; }
     public required long? ServerId { get; set; }
-    
-    [MaxLength(100), MinLength(2)]
+
+    [MaxLength(100)]
+    [MinLength(2)]
     public required string? ServerName { get; set; }
 
     public virtual ICollection<Team> Statics { get; set; } = null!;
