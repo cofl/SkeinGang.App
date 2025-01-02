@@ -1,9 +1,5 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
-@using NodaTime
-@using SkeinGang.AdminUI.Services
-@using SkeinGang.Data.Enums
 @model SkeinGang.AdminUI.Models.TeamDto
-@inject SelectEnumService Enums
 
 @{
     ViewBag.Title = "New Static";
@@ -18,59 +14,8 @@
             <p class="error">@error.ErrorMessage</p>
         }
     }
-    <label>
-        Static Name:
-        <input asp-for="Name"/>
-    </label>
-    <label>
-        Region:
-        <select name="Region" asp-items="Enums.AsSelectOptions(Region.NorthAmerica)"></select>
-    </label>
-    <label>
-        Content Type:
-        <select name="ContentFocus" asp-items="Enums.AsSelectOptions(ContentFocus.HeartOfThorns)"></select>
-    </label>
-    <label>
-        Difficulty Level:
-        <select name="ContentDifficulty" asp-items="Enums.AsSelectOptions(ContentDifficulty.NormalMode)"></select>
-    </label>
-    <label>
-        Experience Level:
-        <select name="ExperienceLevel" asp-items="Enums.AsSelectOptions(ExperienceLevel.Progression)"></select>
-    </label>
-    <label>
-        Day of Raid:
-        <select name="DayOfRaid" asp-items="Enums.AsSelectOptions(IsoDayOfWeek.None)"></select>
-    </label>
-    <label>
-        Discord Server:
-        @{
-            await Html.RenderPartialAsync("Components/SelectDiscord", new
-            {
-                Name = nameof(Model.DiscordServerId),
-                Selected = 1,
-            });
-        }
-    </label>
-    <label>
-        Time of Raid:
-        <input asp-for="TimeOfRaid" value="18:00">
-    </label>
-    <label>
-        Time Zone:
-        <select name="TimeZone" asp-items="Enums.AsSelectOptions(DateTimeZone.Utc)"></select>
-    </label>
-    <label>
-        Follows Summer Time:
-        <input asp-for="FollowsSummerTime" />
-    </label>
-    <label>
-        Hold Slots:
-        <input asp-for="HoldSlots" value="0" min="0" max="10">
-    </label>
-    <label>
-        Archived:
-        <input asp-for="IsArchived" />
-    </label>
+    
+    @{ await Html.RenderPartialAsync("Components/TeamForm", Model);}
+    
     <input type="submit" value="Save" disabled>
 </form>

@@ -12,8 +12,7 @@ internal class LocalTimeModelBinder : IModelBinder
         var rawData = bindingContext.ValueProvider.GetValue(bindingContext.ModelName).FirstValue;
         if (string.IsNullOrEmpty(rawData))
             bindingContext.Result = ModelBindingResult.Success(null);
-        else if (TimeOnly.TryParseExact(rawData, "HH:mm", out var time) ||
-                 TimeOnly.TryParseExact(rawData, "HH:mm:ss", out time))
+        else if (TimeOnly.TryParse(rawData, out var time))
             bindingContext.Result = ModelBindingResult.Success(LocalTime.FromTimeOnly(time));
         else
         {

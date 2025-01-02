@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkeinGang.AdminUI.Models;
 using SkeinGang.AdminUI.Services;
@@ -6,6 +7,7 @@ namespace SkeinGang.AdminUI.Controllers;
 
 [ApiExplorerSettings(IgnoreApi = true)]
 [Route("/admin-ui/[controller]")]
+[Authorize(Roles = AdminUIRoles.Moderator)]
 public class PlayersController(PlayerService players) : Controller
 {
     internal const string GameAccountField = "gw2Name";
@@ -47,5 +49,11 @@ public class PlayersController(PlayerService players) : Controller
     }
 
     [HttpPost("[action]")]
-    public IActionResult UpdatePlayer() => throw new NotImplementedException();
+    public void UpdatePlayer(PlayerDto player)
+    {
+        if(player.Id is null)
+            players.Create(player);
+        else
+            players.Update(player);
+    }
 }

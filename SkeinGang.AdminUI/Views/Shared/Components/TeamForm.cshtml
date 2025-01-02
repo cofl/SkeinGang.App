@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using SkeinGang.AdminUI.Services
+@model SkeinGang.AdminUI.Models.TeamDto
+@inject SelectEnumService Enums
+@inject DiscordServerService Servers
+
+<label>
+    Static Name:
+    <input asp-for="Name"/>
+</label>
+<label>
+    Region:
+    <select
+        name="@nameof(Model.Region)"
+        asp-items="Enums.AsSelectOptions(Model.Region)"
+    ></select>
+</label>
+<label>
+    Content Type:
+    <select
+        name="@nameof(Model.ContentFocus)"
+        asp-items="Enums.AsSelectOptions(Model.ContentFocus)"
+    ></select>
+</label>
+<label>
+    Difficulty Level:
+    <select 
+        name="@nameof(Model.ContentDifficulty)"
+        asp-items="Enums.AsSelectOptions(Model.ContentDifficulty)"
+    ></select>
+</label>
+<label>
+    Experience Level:
+    <select 
+        name="@nameof(Model.ExperienceLevel)" 
+        asp-items="Enums.AsSelectOptions(Model.ExperienceLevel)"
+    ></select>
+</label>
+<label>
+    Day of Raid:
+    <select 
+        name="@nameof(Model.DayOfRaid)" 
+        asp-items="Enums.AsSelectOptions(Model.DayOfRaid)"
+    ></select>
+</label>
+<label>
+    Discord Server:
+    <select 
+        name="@nameof(Model.DiscordServerId)"
+        asp-items="Servers.AsSelectOptions(Model.DiscordServerId)"
+    ></select>
+</label>
+<label>
+    Time of Raid:
+    <input asp-for="TimeOfRaid"/>
+</label>
+<label>
+    Time Zone:
+    <select 
+        name="TimeZone"
+        asp-items="Enums.AsSelectOptions(Model.TimeZone)"
+    ></select>
+</label>
+<label>
+    Follows Summer Time:
+    <input asp-for="FollowsSummerTime"/>
+</label>
+<label>
+    Hold Slots:
+    <input asp-for="HoldSlots" min="0" max="10">
+</label>
+<label>
+    Archived:
+    <input asp-for="IsArchived"/>
+</label>

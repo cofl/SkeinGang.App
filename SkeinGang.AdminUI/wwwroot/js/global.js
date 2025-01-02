@@ -21,57 +21,36 @@ function disableUpdateButton(id) {
 }
 
 /**
- * @param {HTMLFormElement} form
- * @returns {Element | null}
+ * @param {EventTarget} target
+ * @returns {HTMLFormElement | null}
  */
-function getFormSubmit(form)
-{
-    return form.querySelector("input[type=submit]")
-        || form.id && document.querySelector(`input[type=submit][form=${form.id}]`)
-        || null
+function relatedForm(target){
+    if (!(target instanceof HTMLInputElement && target.type !== "hidden" && target.type !== "submit")
+        && !(target instanceof HTMLSelectElement)
+        && !(target instanceof HTMLButtonElement))
+        return null
+
+    const form = target.form
+    if (!form || !form.hasAttribute("data-model-id"))
+        return null
+    
+    return form
 }
 
-/**
- * @param {HTMLFormElement} form
- * @returns {HTMLInputElement[]}
- */
-function getFormInputs(form)
-{
-    const inside = form.querySelectorAll("input")
-    const outside = !form.id ? [] : document.querySelectorAll(`input[form=${form.id}]`)
-    return [
-        ...inside,
-        ...outside,
-    ].filter(element => !element.disabled && element.type !== "hidden" && element.type !== "submit")
+window.onchange = window.oninput = (event) => {
+    const form = relatedForm(event.target)
+    if(!form) return
+    
+    const submit = Array.from(form.elements)
+        .find(element => element.type === "submit")
+    if(submit) submit.disabled = false
 }
 
-/**
- * @param {HTMLFormElement} form
- * @returns {HTMLSelectElement[]}
- */
-function getFormSelects(form)
-{
-    const inside = form.querySelectorAll("select")
-    const outside = !form.id ? [] : document.querySelectorAll(`select[form=${form.id}]`)
-    return [
-        ...inside,
-        ...outside,
-    ].filter(element => !element.disabled)
-}
+window.onsubmit = (event) => {
+    if (!(event.target instanceof HTMLFormElement) || !event.target.hasAttribute("data-model-id"))
+        return
 
-window.onload = () => {
-    /** @type {NodeListOf<HTMLFormElement>} */
-    const forms = document.querySelectorAll("form[data-model-id]");
-    for (const form of forms){
-        /** @type {HTMLSelectElement|null} */
-        const submit = getFormSubmit(form)
-        if (!submit) continue;
-        submit.disabled = true;
-
-        form.onsubmit = () => setTimeout(() => submit.disabled = true, 0)
-        for (const field of getFormInputs(form))
-            field.oninput = () => submit.disabled = false;
-        for (const field of getFormSelects(form))
-            field.onchange = () => submit.disabled = false;
-    }
+    const submit = Array.from(event.target.elements)
+        .find(element => element.type === "submit")
+    if(submit) setTimeout(() => submit.disabled = true, 0)
 }

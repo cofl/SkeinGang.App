@@ -1,41 +1,44 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using SkeinGang.AdminUI.Models;
+using SkeinGang.Data;
 using SkeinGang.Data.Context;
-using SkeinGang.Data.Entities;
 
 namespace SkeinGang.AdminUI.Services;
 
 public class DiscordServerService(DataContext context)
 {
-    public List<DiscordServerDto> FindAll() =>
+    internal List<DiscordServerDto> FindAll() =>
         context.DiscordServers
             .AsNoTracking()
             .OrderBy(a => a.Id)
             .ProjectToDto()
             .ToList();
 
-    public DiscordServerDto Create(DiscordServerDto server)
+    internal DiscordServerDto Create(DiscordServerDto server)
     {
-        if (server.Id != null)
-            throw new ArgumentException(
-                paramName: nameof(server),
-                message: $"{nameof(server.Id)} must be null."
-            );
-        var model = context.DiscordServers.Add(new DiscordServer
-        {
-            ServerId = server.ServerId,
-            ServerName = server.ServerName,
-        });
+        Assert.MustBeNull(server.Id);
+        var model = context.DiscordServers.AddNew(server.ToEntity());
         context.SaveChanges();
-        return model.Entity.ToDto();
+        return model.ToDto();
     }
 
-    public DiscordServerDto Update(DiscordServerDto discordServer)
+    internal DiscordServerDto Update(DiscordServerDto discordServer)
     {
+        Assert.MustNotBeNull(discordServer.Id);
         var model = context.DiscordServers
             .First(server => server.Id == discordServer.Id);
         model.ApplyUpdate(discordServer);
         context.SaveChanges();
         return model.ToDto();
     }
+
+    internal IEnumerable<SelectListItem> AsSelectOptions(long? selected) =>
+        FindAll()
+            .Select(server => new SelectListItem
+            {
+                Text = server.ServerName,
+                Value = server.Id.ToString(),
+                Selected = server.Id == selected,
+            });
 }

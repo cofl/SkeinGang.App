@@ -1,66 +1,52 @@
+using System.Net.Mime;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NodaTime;
 using SkeinGang.AdminUI.Models;
 using SkeinGang.AdminUI.Services;
+using SkeinGang.Data.Enums;
 
 namespace SkeinGang.AdminUI.Controllers;
 
 [ApiExplorerSettings(IgnoreApi = true)]
 [Route("/admin-ui/statics")]
-public class TeamsController(
-    TeamService teams
-): Controller
+public class TeamsController(TeamService teams): Controller
 {
     [HttpGet]
     public IActionResult Index()
         => View(teams.FindAll());
     
-    [HttpGet]
-    [Route("edit/{teamId:long}")]
-    public IActionResult EditTeam(long teamId) => throw new NotImplementedException();
-
-    [HttpGet]
-    [Route("create")]
+    [HttpGet("create")]
     public IActionResult Create()
-        => View();
+        => View(new TeamDto
+        {
+            // default values for the form.
+            Name = "",
+            TimeZone = DateTimeZone.Utc,
+            Region = Region.NorthAmerica,
+            ContentFocus = ContentFocus.HeartOfThorns,
+            ContentDifficulty = ContentDifficulty.NormalMode,
+            ExperienceLevel = ExperienceLevel.Progression,
+            DayOfRaid = IsoDayOfWeek.None,
+            TimeOfRaid = LocalTime.FromHoursSinceMidnight(18), // 6pm
+            DiscordServerId = 1,
+            HoldSlots = 0,
+        });
     
-    [HttpGet]
-    [Route("members/find-user")]
-    public IActionResult FindUser() => throw new NotImplementedException();
+    [HttpGet("edit/{teamId:long}")]
+    public IActionResult Edit(long teamId)
+        => teams.FindWithMembersById(teamId) is {} team
+            ? View(team)
+            : NotFound();
     
-    [HttpPost]
-    [Route("updateStatic")]
-    public IActionResult UpdateTeam() => throw new NotImplementedException();
-    
-    [HttpPost]
-    [Route("updateStaticRow")]
-    public IActionResult UpdateTeamRow() => throw new NotImplementedException();
-
-    [HttpPost]
-    [Route("createStatic")]
+    [HttpPost("createStatic")]
     public IActionResult CreateTeam(TeamDto team)
     {
         var created = teams.Create(team);
-        return this.SeeOther(Url.Action("EditTeam", "Teams", values: new { teamId = created.TeamId })!);
+        return this.SeeOther(Url.Action("Edit", "Teams", values: new { teamId = created.TeamId })!);
     }
-    
-    [HttpGet]
-    [Route("{teamId:long}/memberSearch")]
-    public IActionResult FindTeamMembers(long teamId, [FromQuery] string playerName) => throw new NotImplementedException();
-    
-    [HttpPut]
-    [Route("{teamId:long}/members/{memberId:long}")]
-    public IActionResult UpdateTeamMember(long teamId, long memberId) => throw new NotImplementedException();
-    
-    [HttpDelete]
-    [Route("{teamId:long}/members/{memberId:long}")]
-    public IActionResult DeleteTeamMember(long teamId, long memberId) => throw new NotImplementedException();
-    
-    [HttpPost]
-    [Route("{teamId:long}/members")]
-    public IActionResult AddTeamMember(long teamId) => throw new NotImplementedException();
-    
-    [HttpPost]
-    [Route("{teamId:long}/membersCreateAndAdd")]
-    public IActionResult CreateAndAddMember(long teamId) => throw new NotImplementedException();
+
+    [HttpPost("updateStatic")]
+    [Consumes(MediaTypeNames.Application.FormUrlEncoded)]
+    public void UpdateTeam(TeamDto team)
+        => teams.Update(team);
 }

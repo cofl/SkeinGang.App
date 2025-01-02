@@ -1,0 +1,6 @@
+﻿# noinspection EditorConfigKeyCorrectness
+[*.cs]
+# Ignore missing doc comments
+# We use doc comments to generate OpenAPI docs, but this part
+# of the application isn't in the API, so don't bother.
+dotnet_diagnostic.CS1591.severity = none

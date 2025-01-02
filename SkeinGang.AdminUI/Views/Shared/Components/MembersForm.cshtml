@@ -1,0 +1,23 @@
+﻿@model SkeinGang.AdminUI.Models.TeamWithMembersDto
+
+<section id="static-members">
+    <h5>@Model.Members.Count Members</h5>
+    <table class="striped">
+        <thead>
+        <tr>
+            <th scope="col">Player ID</th>
+            <th scope="col">Membership ID</th>
+            <th scope="col">GW2 Name</th>
+            <th scope="col">Discord Name</th>
+            <th scope="col">Membership</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var member in Model.Members)
+        {
+            await Html.RenderPartialAsync("Components/TeamMemberRow", member);
+        }
+        </tbody>
+    </table>
+</section>

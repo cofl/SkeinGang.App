@@ -1,0 +1,37 @@
+﻿@using SkeinGang.AdminUI.Services
+@model SkeinGang.AdminUI.Models.TeamMemberDto
+@inject SelectEnumService Enums
+    
+<tr>
+    <td><span>@Model.PlayerId</span></td>
+    <td><span>@Model.MembershipId</span></td>
+    <td><span>@Model.GameAccount</span></td>
+    <td><span>@Model.DiscordAccountName</span></td>
+    <td>
+        <form id="membership_@Model.PlayerId"
+              data-model-id="@Model.PlayerId"
+              hx-target="#static-members"
+              hx-put hx-controller="TeamMembers" hx-action="UpdateTeamMember"
+              hx-route-teamId="@Model.TeamId"
+              hx-route-memberId="@Model.MembershipId">
+            <select
+                name="membershipType"
+                asp-items="Enums.AsSelectOptions(Model.MembershipType)"></select>
+        </form>
+    </td>
+    <td>
+        <input form="membership_@Model.PlayerId" type="submit" value="Update" disabled />
+    </td>
+    <td>
+        <button
+            form="membership_@Model.PlayerId"
+            id="update_@Model.PlayerId"
+            type="button"
+            hx-target="#static-members"
+            hx-delete hx-controller="TeamMembers" hx-action="UpdateTeamMember"
+            hx-route-teamId="@Model.TeamId"
+            hx-route-memberId="@Model.MembershipId">
+            Remove
+        </button>
+    </td>
+</tr>

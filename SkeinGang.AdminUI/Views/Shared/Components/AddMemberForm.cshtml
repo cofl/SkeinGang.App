@@ -1,0 +1,16 @@
+﻿@using SkeinGang.AdminUI.Services
+@using SkeinGang.Data.Enums
+@model SkeinGang.AdminUI.Models.TeamMemberDto
+@inject SelectEnumService Enums
+
+<form data-model-id="create"
+      hx-target="#static-members"
+      hx-post
+      hx-controller="TeamMembers"
+      hx-action="CreateAndAddTeamMember"
+      hx-route-teamId="@Model.TeamId">
+    <input asp-for="GameAccount" placeholder="GW2 Name">
+    <input asp-for="DiscordAccountName" placeholder="Discord Name">
+    <select name="@nameof(MembershipType)" asp-items="Enums.AsSelectOptions(Model.MembershipType)"></select>
+    <button type="submit">Create</button>
+</form>

@@ -9,10 +9,8 @@ using SkeinGang.Data.Enums;
 
 namespace SkeinGang.AdminUI.Services;
 
-public class SelectEnumService(IOptions<JsonOptions> jsonOptions)
+internal class SelectEnumService(IOptions<JsonOptions> jsonOptions)
 {
-    private readonly Dictionary<Type, List<SelectListItem>> _options = [];
-
     private static List<string> DefaultTimeZones { get; } =
     [
         "Europe/Brussels",
@@ -23,20 +21,18 @@ public class SelectEnumService(IOptions<JsonOptions> jsonOptions)
     ];
 
     // ReSharper disable once MemberCanBeMadeStatic.Global
-#pragma warning disable CA1822
+    #pragma warning disable CA1822
     internal List<SelectListItem> AsSelectOptions(DateTimeZone zone) =>
         DefaultTimeZones
             .Select(a => new SelectListItem(a, a, a == zone.Id))
             .ToList();
-#pragma warning restore CA1822
+    #pragma warning restore CA1822
 
     internal List<SelectListItem> AsSelectOptions<T>(T selected)
-        where T : struct, Enum
-    {
-        return GetOptions<T>(selected);
-    }
+        where T : struct, Enum =>
+        GetOptions(selected);
 
-    private List<SelectListItem> GetOptions<T>(T? selected) where T : struct, Enum
+    private List<SelectListItem> GetOptions<T>(T selected) where T : struct, Enum
     {
         var selectedValue = GetValue(selected) is { } item ? GetValue(item) : null;
         return Enum.GetValues<T>()
@@ -61,16 +57,16 @@ public class SelectEnumService(IOptions<JsonOptions> jsonOptions)
             JsonSerializer.Serialize<T>(value, jsonOptions.Value.JsonSerializerOptions))
     };
 
-    private static string GetName(Region region) => region switch
-    {
-        Region.NorthAmerica => "North America",
-        Region.Europe => "Europe",
-        Region.Australia => "Australia",
-    };
-
+    #pragma warning disable CS8524
     private static string GetName<T>(T item) where T : struct, Enum
         => item switch
         {
+            Region region => region switch
+            {
+                Region.NorthAmerica => "North America",
+                Region.Europe => "Europe",
+                Region.Australia => "Australia",
+            },
             ContentDifficulty difficulty => difficulty switch
             {
                 ContentDifficulty.NormalMode => "NM",
@@ -90,6 +86,12 @@ public class SelectEnumService(IOptions<JsonOptions> jsonOptions)
                 ContentFocus.Social => "Social",
                 ContentFocus.JanthirWilds => "Janthir Wilds",
             },
+            MembershipType membershipType => membershipType switch
+            {
+                MembershipType.Member => "Member",
+                MembershipType.StaticRep => "Static Rep",
+                MembershipType.Honorary => "Honorary",
+            },
             ExperienceLevel rating => rating.ToString(),
             IsoDayOfWeek dayOfWeek => dayOfWeek.ToString(),
             _ => typeof(T)
@@ -98,4 +100,5 @@ public class SelectEnumService(IOptions<JsonOptions> jsonOptions)
                      ?.Value
                  ?? item.ToString()
         };
+    #pragma warning restore CS8524
 }

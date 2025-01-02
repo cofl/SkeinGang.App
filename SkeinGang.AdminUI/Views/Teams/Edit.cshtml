@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using SkeinGang.AdminUI.Models
+@model SkeinGang.AdminUI.Models.TeamWithMembersDto
+
+@{
+    ViewBag.Title = "Static";
+    Layout = "_Layout";
+}
+
+<form data-model-id="@Model.TeamId" asp-action="UpdateTeam" method="post">
+    <h4>@Model.Name</h4>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+        {
+            <p class="error">@error.ErrorMessage</p>
+        }
+    }
+    
+    <label>
+        Static ID:
+        <input asp-for="TeamId" />
+        <input asp-for="TeamId" type="text" disabled />
+    </label>
+    @{ await Html.RenderPartialAsync("Components/TeamForm", Model); }
+
+    <input type="submit" value="Save" disabled>
+</form>
+
+@{ await Html.RenderPartialAsync("Components/MembersForm", Model); }
+
+<section>
+    <h5>Add Member</h5>
+    <form role="search">
+        <input id="memberSearchInput" name="playerName" type="search" placeholder="GW2 Name to search for"/>
+        <button type="submit"
+                hx-include="#memberSearchInput"
+                hx-target="#memberSearchTable"
+                hx-get
+                hx-controller="TeamMembers"
+                hx-action="FindTeamMembers"
+                hx-route-teamId="@Model.TeamId"
+        >
+            Search
+        </button>
+    </form>
+    <div id="memberSearchTable"></div>
+    @{ await Html.RenderPartialAsync("Components/AddMemberForm", new TeamMemberDto()); }
+</section>

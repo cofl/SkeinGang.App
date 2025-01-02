@@ -24,6 +24,7 @@ public static class AdminUIPart
         builder.Services.AddScoped<DiscordServerService>();
         builder.Services.AddScoped<PlayerService>();
         builder.Services.AddScoped<TeamService>();
+        builder.Services.AddScoped<TeamMemberService>();
         builder.Services.AddSingleton<SelectEnumService>();
 
         // This is apparently fine to call twice?

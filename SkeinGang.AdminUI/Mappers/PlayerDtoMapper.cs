@@ -15,8 +15,13 @@ public static partial class PlayerDtoMapper
     [MapperIgnoreSource(nameof(PlayerDto.MembershipCount))]
     [MapperIgnoreSource(nameof(PlayerDto.Id))]
     [MapperIgnoreTarget(nameof(Player.TeamMemberships))]
+    public static partial Player ToEntity(this PlayerDto dto);
+
+    [MapperIgnoreSource(nameof(PlayerDto.MembershipCount))]
+    [MapperIgnoreSource(nameof(PlayerDto.Id))]
+    [MapperIgnoreTarget(nameof(Player.TeamMemberships))]
     public static partial void ApplyUpdate([MappingTarget] this Player player, PlayerDto dto);
-    
+
     private static int? MembershipToCount(ICollection<TeamMembership> teamMemberships)
         => teamMemberships.Count;
 }
