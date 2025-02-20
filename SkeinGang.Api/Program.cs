@@ -1,7 +1,8 @@
 global using Domain = SkeinGang.Data.Entities;
-using SkeinGang.Api;
 
-internal class Program
+namespace SkeinGang.Api;
+
+internal static class Program
 {
     public static void Main(string[] args)
     {
